@@ -1,0 +1,10 @@
+{
+  "name": "pagina-backend",
+  "version": "1.0.0",
+  "description": "API rest da plataforma Página 📚🚀🚀🚀",
+  "main": "index.js",
+  "repository": "https://github.com/nathan-kos/P-gina-BackEnd.git",
+  "author": "nathan ks <nathanks0210@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
