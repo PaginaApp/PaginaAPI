@@ -6,5 +6,6 @@
   "repository": "https://github.com/nathan-kos/P-gina-BackEnd.git",
   "author": "nathan ks <nathanks0210@gmail.com>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "dependencies": {}
 }
