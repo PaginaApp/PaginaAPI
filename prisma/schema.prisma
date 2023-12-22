@@ -1,0 +1,310 @@
+generator client{
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// modelo de Usuario
+model User {
+    usu_Id              String                   @id @default(uuid())
+    usu_Nome            String
+    usu_Email           String                   @unique
+    usu_Senha           String
+    usu_Telefone        String                   @db.Char(16)
+    usu_CPF             String                   @unique @db.Char(11)
+    usu_Nasc            DateTime                 @db.Date
+    usu_Privacidade     Boolean                  @default(false)
+    usu_Uso             Boolean                  @default(false)
+    usu_avatar          String
+    usu_pap_id          String
+    usu_pap             Papel                    @relation(fields: [usu_pap_id], references: [pap_Id])
+    usu_Rua             String 
+    usu_Numero          String
+    usu_Bairro          String
+    usu_CEP             String                   @db.Char(16)
+    usu_Complemento     String
+    // relação
+    usu_est_id          String
+    usu_est             Estado                   @relation(fields: [usu_est_id], references: [est_Id])
+    usu_cid_id          String
+    usu_cid             Cidade                   @relation(fields: [usu_cid_id], references: [cid_Id])
+    usu_tpr             Termo_privacidade[]
+    usu_tus             Termo_uso[]
+    usu_ldd             Lista_De_Desejos[]
+    usu_exe             Exemplar[]
+    usu_trs_Leitor      Transacao[]              @relation("Leitor")
+    usu_trs_Anunciante  Transacao[]              @relation("Anunciante")
+    usu_ava_Avaliador   Avaliacao[]              @relation("Avaliador")
+    usu_ava_Avaliado    Avaliacao[]              @relation("Avaliado")
+    // padrão
+    usu_CriadoEm        DateTime                 @default(now())
+    usu_AtualizadoEm    DateTime                 @updatedAt
+
+}
+
+model Estado {
+    est_Id              String                  @id @default(uuid())
+    est_Nome            String
+    est_UF              String                  @db.Char(2)
+    // relação
+    Usuario             User[]
+    // padrão
+    est_CriadoEm        DateTime                @default(now())
+    est_AtualizadoEm    DateTime                @updatedAt
+}
+
+model Cidade {
+    cid_Id              String                  @id @default(uuid())
+    cid_Nome            String
+    // relação
+    Usuario             User[]
+    // padrão
+    cid_CriadoEm        DateTime                @default(now())
+    cid_AtualizadoEm    DateTime                @updatedAt
+}
+
+model Papel {
+    pap_Id              String                   @id @default(uuid())
+    pap_Nome            String
+    // relação
+    Usuario             User[]
+    // padrão
+    pap_CriadoEm        DateTime                 @default(now())
+    pap_AtualizadoEm    DateTime                 @updatedAt
+}
+
+// modelo de termos
+model Termo_privacidade {
+    tpr_Id              String                  @id @default(uuid())
+    tpr_Texto           String
+    // relação
+    tpr_usu_id          String
+    Usuario             User                    @relation(fields: [tpr_usu_id], references: [usu_Id])
+    // padrão
+    tpr_CriadoEm        DateTime                @default(now())
+    tpr_AtualizadoEm    DateTime                @updatedAt
+}
+
+model Termo_uso {
+    tus_Id              String                  @id @default(uuid())
+    tus_Texto           String
+    // relação
+    tus_usu_id          String
+    Usuario             User                    @relation(fields: [tus_usu_id], references: [usu_Id])
+    // padrão
+    tus_CriadoEm        DateTime                @default(now())
+    tus_AtualizadoEm    DateTime                @updatedAt
+}
+
+// modelo de livro
+model Livro {
+    liv_Id              String                  @id @default(uuid())
+    liv_Titulo          String
+    liv_Ano             String                  @db.Char(4)
+    liv_Sinopse         String
+    // relação
+    liv_edi_id          String
+    liv_edi             Editora                 @relation(fields: [liv_edi_id], references: [edi_Id])
+    liv_aut_id          String
+    liv_aut             Autor                   @relation(fields: [liv_aut_id], references: [aut_Id])
+    liv_cat_liv         Categoria_Livro[]
+    liv_ldd             Lista_De_Desejos[]
+    liv_exe             Exemplar[]
+}
+
+model Editora {
+    edi_Id             String                  @id @default(uuid())
+    edi_Nome            String
+    // relação
+    Livro               Livro[]
+    // padrão
+    edi_CriadoEm        DateTime                @default(now())
+    edi_AtualizadoEm    DateTime                @updatedAt
+}
+
+model Autor {
+    aut_Id              String                  @id @default(uuid())
+    aut_Nome            String
+    // relação
+    Livro               Livro[]
+    // padrão
+    aut_CriadoEm        DateTime                @default(now())
+    aut_AtualizadoEm    DateTime                @updatedAt
+}
+
+model Categoria_Livro {
+    liv_id              String
+    liv                 Livro                   @relation(fields: [liv_id], references: [liv_Id])
+    cat_id              String
+    cat                 Categoria               @relation(fields: [cat_id], references: [cat_Id])
+
+    @@id([liv_id, cat_id])
+    // padrão
+    cat_liv_CriadoEm    DateTime                @default(now())
+    cat_liv_AtualizadoEm    DateTime            @updatedAt
+}
+
+model Categoria {
+    cat_Id              String                  @id @default(uuid())
+    cat_Nome            String
+    // relação
+    Categoria_Livro     Categoria_Livro[]
+    // padrão
+    cat_CriadoEm        DateTime                @default(now())
+    cat_AtualizadoEm    DateTime                @updatedAt
+}
+
+model Lista_De_Desejos {
+    usu_id              String
+    usu                 User                    @relation(fields: [usu_id], references: [usu_Id])
+    liv_id              String
+    liv                 Livro                   @relation(fields: [liv_id], references: [liv_Id])
+
+    @@id([usu_id, liv_id])
+    // padrão
+    ldd_CriadoEm        DateTime                @default(now())
+    ldd_AtualizadoEm    DateTime                @updatedAt
+}
+
+// modelo de exemplar
+model Exemplar {
+    exe_Id              String                  @id @default(uuid())
+    exe_Descricao       String
+    exe_Negociando      Boolean                 @default(false)
+    // relação
+    exe_liv_id          String
+    exe_liv             Livro                   @relation(fields: [exe_liv_id], references: [liv_Id])
+    exe_usu_id          String
+    exe_usu             User                    @relation(fields: [exe_usu_id], references: [usu_Id])
+    exe_epg_id          String
+    exe_epg             Estado_Paginas          @relation(fields: [exe_epg_id], references: [epg_Id])
+    exe_ecp_id          String
+    exe_ecp             Estado_Capa             @relation(fields: [exe_ecp_id], references: [ecp_Id])
+    exe_iex             Imagem_Exemplar[]
+    exe_exe_trs         Exemplar_Transacao[]
+    exe_trs_exe         Transacao_Aceita[]
+    // padrão
+    exe_CriadoEm        DateTime                @default(now())
+    exe_AtualizadoEm    DateTime                @updatedAt
+}
+
+model Estado_Paginas {
+    epg_Id              String                  @id @default(uuid())
+    epg_Nome            String
+    epg_Descricao       String
+    // relação
+    Exemplar            Exemplar[]
+    // padrão
+    epg_CriadoEm        DateTime                @default(now())
+    epg_AtualizadoEm    DateTime                @updatedAt
+}
+
+model Estado_Capa {
+    ecp_Id              String                  @id @default(uuid())
+    ecp_Nome            String
+    ecp_Descricao       String
+    // relação
+    Exemplar            Exemplar[]
+    // padrão
+    ecp_CriadoEm        DateTime                @default(now())
+    ecp_AtualizadoEm    DateTime                @updatedAt
+}
+
+model Imagem_Exemplar {
+    iex_Id              String                  @id @default(uuid())
+    iex_Path            String
+    // relação
+    iex_exe_id          String
+    iex_exe             Exemplar                @relation(fields: [iex_exe_id], references: [exe_Id])
+    // padrão
+    iex_CriadoEm        DateTime                @default(now())
+    iex_AtualizadoEm    DateTime                @updatedAt
+}
+
+model Transacao_Aceita {
+    ttr_Id              String
+    ttr                 Tipo_Transacao          @relation(fields: [ttr_Id], references: [ttr_Id])
+    exe_Id              String
+    exe                 Exemplar                @relation(fields: [exe_Id], references: [exe_Id])
+
+    @@id([ttr_Id, exe_Id])
+}
+
+// modelo de transação
+
+model Transacao {
+    trs_Id              String                  @id @default(uuid())
+    trs_Data            DateTime
+    trs_Preco           Decimal                 @db.Decimal(10,2)
+    trs_Prazo           Int                     @db.Integer
+    // relação
+    trs_ttr_id              String
+    trs_ttr                 Tipo_Transacao          @relation(fields: [trs_ttr_id], references: [ttr_Id])
+    trs_exe_trs             Exemplar_Transacao[]
+    trs_str_id              String
+    trs_str                 Status_Transacao        @relation(fields: [trs_str_id], references: [str_Id])
+    trs_usu_Leitor_id       String
+    trs_usu_Leitor          User                    @relation("Leitor",fields: [trs_usu_Leitor_id], references: [usu_Id])
+    trs_usu_Anunciante_id   String
+    trs_usu_Anunciante      User                    @relation("Anunciante",fields: [trs_usu_Anunciante_id], references: [usu_Id])
+    trs_ava                 Avaliacao[]
+    // padrão
+    trs_CriadoEm            DateTime                @default(now())
+    trs_AtualizadoEm        DateTime                @updatedAt
+}
+
+model Tipo_Transacao {
+    ttr_Id              String                  @id @default(uuid())
+    ttr_Nome            String
+    // relação
+    Transacao           Transacao[]
+    Transacao_Aceita    Transacao_Aceita[]
+    Titulos             Titulos[]
+    // padrão
+    ttr_CriadoEm        DateTime                @default(now())
+    ttr_AtualizadoEm    DateTime                @updatedAt
+}
+
+model Exemplar_Transacao {
+    trs_id              String
+    trs                 Transacao               @relation(fields: [trs_id], references: [trs_Id])
+    exe_id              String
+    exe                 Exemplar                @relation(fields: [exe_id], references: [exe_Id])
+
+    @@id([trs_id, exe_id])
+}
+
+model Status_Transacao {
+    str_Id              String                  @id @default(uuid())
+    str_Nome            String
+    // relação
+    Transacao           Transacao[]
+    // padrão
+    str_CriadoEm        DateTime                @default(now())
+    str_AtualizadoEm    DateTime                @updatedAt
+}
+
+// modelo de avaliação
+model Avaliacao {
+    ava_Id              String                  @id @default(uuid())
+    ava_Pontuacao       Int
+    // relação
+    ava_trs_id          String
+    ava_trs             Transacao               @relation(fields: [ava_trs_id], references: [trs_Id])
+    ava_usu_avaliador_id String
+    ava_usu_avaliador   User                    @relation("Avaliador",fields: [ava_usu_avaliador_id], references: [usu_Id])
+    ava_usu_avaliado_id String
+    ava_usu_avaliado    User                    @relation("Avaliado",fields: [ava_usu_avaliado_id], references: [usu_Id])
+}
+
+model Titulos {
+    tit_Id               String                 @id @default(uuid())
+    tit_Nome             String
+    tit_Pontuacao        Int                    @db.Integer
+    // relação
+    tit_ttr_Id           String
+    trs_str              Tipo_Transacao        @relation(fields: [tit_ttr_Id], references: [ttr_Id])
+}
