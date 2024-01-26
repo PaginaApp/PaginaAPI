@@ -18,19 +18,19 @@ model User {
     usu_Nasc            DateTime                 @db.Date
     usu_Privacidade     Boolean                  @default(false)
     usu_Uso             Boolean                  @default(false)
-    usu_avatar          String
+    usu_avatar          String?
     usu_pap_id          String
     usu_pap             Papel                    @relation(fields: [usu_pap_id], references: [pap_Id])
-    usu_Rua             String 
-    usu_Numero          String
-    usu_Bairro          String
-    usu_CEP             String                   @db.Char(16)
-    usu_Complemento     String
+    usu_Rua             String? 
+    usu_Numero          String?
+    usu_Bairro          String?
+    usu_CEP             String?                   @db.Char(16)
+    usu_Complemento     String?
     // relação
-    usu_est_id          String
-    usu_est             Estado                   @relation(fields: [usu_est_id], references: [est_Id])
-    usu_cid_id          String
-    usu_cid             Cidade                   @relation(fields: [usu_cid_id], references: [cid_Id])
+    usu_est_id          String?
+    usu_est             Estado?                   @relation(fields: [usu_est_id], references: [est_Id])
+    usu_cid_id          String?
+    usu_cid             Cidade?                   @relation(fields: [usu_cid_id], references: [cid_Id])
     usu_tpr             Termo_privacidade[]
     usu_tus             Termo_uso[]
     usu_ldd             Lista_De_Desejos[]
