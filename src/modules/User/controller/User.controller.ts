@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { CreateUser } from '../service/CreateUser.service';
+import { FindById } from '../service/FindById.service';
 
 class UserController {
   async create(req: Request, res: Response) {
@@ -20,6 +21,16 @@ class UserController {
     });
 
     return res.status(201).json(user);
+  }
+
+  async FindById(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const findById = container.resolve(FindById);
+
+    const user = await findById.execute(id);
+
+    return res.status(200).json(user);
   }
 }
 
