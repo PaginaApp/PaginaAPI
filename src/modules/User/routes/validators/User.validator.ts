@@ -10,3 +10,9 @@ export const createUserMiddleware = celebrate({
     usu_Nasc: Joi.date().required(),
   },
 });
+
+export const findByIdMiddleware = celebrate({
+  params: {
+    id: Joi.string().uuid().required(),
+  },
+});
