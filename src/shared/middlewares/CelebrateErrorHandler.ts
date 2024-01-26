@@ -56,6 +56,15 @@ async function CelebrateErrorHandler(
       case 'document.cnpj':
         messageString = 'O CNPJ é inválido.';
         break;
+      case 'document.cpf':
+        messageString = 'O CPF é inválido.';
+        break;
+      case 'any.invalid':
+        messageString = `O campo ${context.label} é inválido.`;
+        break;
+      case 'string.guid':
+        messageString = `O campo ${context.label} não é um UUID válido.`;
+        break;
       default:
         messageString = 'Aconteceu um erro tente novamente mais tarde.';
         break;
