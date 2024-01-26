@@ -16,7 +16,7 @@ class UserController {
       usu_Telefone,
       usu_CPF,
       usu_Nasc,
-      usu_pap_id: undefined,
+      usu_pap_id: '',
     });
 
     return res.status(201).json(user);
