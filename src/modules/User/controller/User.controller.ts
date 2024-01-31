@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { CreateUser } from '../service/CreateUser.service';
+import { DeleteUserService } from '../service/DeleteUser.service';
 import { FindById } from '../service/FindById.service';
 
 class UserController {
@@ -31,6 +32,16 @@ class UserController {
     const user = await findById.execute(id);
 
     return res.status(200).json(user);
+  }
+
+  async DeleteUser(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const deleteUser = container.resolve(DeleteUserService);
+
+    await deleteUser.execute(id);
+
+    return res.status(204).send();
   }
 }
 
