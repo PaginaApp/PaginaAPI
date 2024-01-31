@@ -15,4 +15,6 @@ userRouter.get('/:id', findByIdMiddleware, userController.FindById);
 
 userRouter.delete('/:id', findByIdMiddleware, userController.DeleteUser);
 
+userRouter.get('/', userController.ListUser);
+
 export { userRouter };

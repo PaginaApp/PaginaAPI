@@ -22,3 +22,11 @@ export const deleteUserMiddleware = celebrate({
     id: Joi.string().uuid().required(),
   },
 });
+
+export const listUserMiddleware = celebrate({
+  query: {
+    page: Joi.number().required(),
+    limit: Joi.number().required(),
+    filter: Joi.object(),
+  },
+});
