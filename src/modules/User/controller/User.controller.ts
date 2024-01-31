@@ -5,6 +5,7 @@ import { CreateUser } from '../service/CreateUser.service';
 import { DeleteUserService } from '../service/DeleteUser.service';
 import { FindById } from '../service/FindById.service';
 import { ListUserService } from '../service/ListUser.service';
+import { UpdateUserService } from '../service/UpdateUser.service';
 
 class UserController {
   async create(req: Request, res: Response) {
@@ -58,6 +59,37 @@ class UserController {
     });
 
     return res.status(200).json(users);
+  }
+
+  async UpdateUser(req: Request, res: Response) {
+    const { usu_Id } = req.params;
+
+    const {
+      usu_Telefone,
+      usu_Rua,
+      usu_Numero,
+      usu_Bairro,
+      usu_CEP,
+      usu_Complemento,
+      usu_cid_id,
+      usu_est_id,
+    } = req.body;
+
+    const updateUser = container.resolve(UpdateUserService);
+
+    const user = await updateUser.execute({
+      usu_Id,
+      usu_Telefone,
+      usu_Rua,
+      usu_Numero,
+      usu_Bairro,
+      usu_CEP,
+      usu_Complemento,
+      usu_cid_id,
+      usu_est_id,
+    });
+
+    return res.status(200).json(user);
   }
 }
 
