@@ -17,4 +17,6 @@ userRouter.delete('/:id', findByIdMiddleware, userController.DeleteUser);
 
 userRouter.get('/', userController.ListUser);
 
+userRouter.put('/:usu_Id', userController.UpdateUser);
+
 export { userRouter };

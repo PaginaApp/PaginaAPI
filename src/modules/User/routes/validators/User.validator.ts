@@ -30,3 +30,19 @@ export const listUserMiddleware = celebrate({
     filter: Joi.object(),
   },
 });
+
+export const updateUserMiddleware = celebrate({
+  params: {
+    usu_Id: Joi.string().uuid().required(),
+  },
+  body: {
+    usu_Telefone: Joi.string(),
+    usu_Rua: Joi.string(),
+    usu_Numero: Joi.string(),
+    usu_Bairro: Joi.string(),
+    usu_CEP: Joi.string(),
+    usu_Complemento: Joi.string(),
+    usu_est_id: Joi.string(),
+    usu_cid_id: Joi.string(),
+  },
+});
