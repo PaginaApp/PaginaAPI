@@ -1,19 +1,7 @@
 class IUpdateUserDTO {
   usu_Id: string;
 
-  usu_Nome?: string;
-
-  usu_Email?: string;
-
-  usu_Senha?: string;
-
   usu_Telefone?: string;
-
-  usu_CPF?: string;
-
-  usu_Nasc?: Date;
-
-  usu_avatar?: string;
 
   usu_Rua?: string;
 
