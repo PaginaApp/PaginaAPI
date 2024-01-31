@@ -16,3 +16,9 @@ export const findByIdMiddleware = celebrate({
     id: Joi.string().uuid().required(),
   },
 });
+
+export const deleteUserMiddleware = celebrate({
+  params: {
+    id: Joi.string().uuid().required(),
+  },
+});
