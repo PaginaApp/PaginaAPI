@@ -1,3 +1,4 @@
+import verifyAutorization from '@shared/middlewares/VerifyAutorization';
 import { Router } from 'express';
 import { UserController } from '../controller/User.controller';
 import {
@@ -11,7 +12,15 @@ const userController = new UserController();
 
 userRouter.post('/', createUserMiddleware, userController.create);
 
-userRouter.get('/:id', findByIdMiddleware, userController.FindById);
+userRouter.get(
+  '/:id',
+  findByIdMiddleware,
+  verifyAutorization([
+    process.env.PAPEL_ADMIN as string,
+    process.env.PAPEL_USUARIO as string,
+  ]),
+  userController.FindById,
+);
 
 userRouter.delete('/:id', findByIdMiddleware, userController.DeleteUser);
 
