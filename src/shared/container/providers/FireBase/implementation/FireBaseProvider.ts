@@ -29,7 +29,7 @@ class FireBaseProvider implements IFireBase {
     }
   }
 
-  async signInWithEmailAndPassword(uid: string): Promise<string> {
+  async signIn(uid: string): Promise<string> {
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${process.env.FIREBASE_API_KEY}`;
 
     try {

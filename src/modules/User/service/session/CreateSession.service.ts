@@ -39,9 +39,7 @@ export class CreateSessionService {
       throw new AuthorizationError('Email ou senha incorretos');
     }
 
-    const token = await this.fireBaseProvider.signInWithEmailAndPassword(
-      user.usu_Id,
-    );
+    const token = await this.fireBaseProvider.signIn(user.usu_Id);
 
     const showUser: IShowUserDTO = {
       ...user,

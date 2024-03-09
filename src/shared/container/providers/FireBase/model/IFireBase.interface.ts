@@ -6,7 +6,7 @@ interface IFireBase {
     password: string,
     usu_id: string,
   ): Promise<UserRecord>;
-  signInWithEmailAndPassword(uid: string): Promise<string>;
+  signIn(uid: string): Promise<string>;
   signOut(uid: string): Promise<void>;
   verifyIdToken(idToken: string): Promise<DecodedIdToken>;
 }

@@ -33,9 +33,7 @@ class RefreshSessionService {
 
     await this.fireBaseProvider.signOut(usu_Id);
 
-    const newToken = await this.fireBaseProvider.signInWithEmailAndPassword(
-      usu_Id,
-    );
+    const newToken = await this.fireBaseProvider.signIn(usu_Id);
 
     const showUser = {
       ...user,
