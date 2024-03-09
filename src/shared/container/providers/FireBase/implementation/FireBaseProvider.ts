@@ -1,4 +1,5 @@
 import { AuthorizationError } from '@shared/errors/AuthorizationError';
+import { UnknownError } from '@shared/errors/UnknownError';
 import axios from 'axios';
 import admin from 'firebase-admin';
 import { DecodedIdToken, UserRecord } from 'firebase-admin/auth';
@@ -25,7 +26,9 @@ class FireBaseProvider implements IFireBase {
       return userRecord;
     } catch (error) {
       console.dir(error);
-      throw new Error('Error creating new user');
+      throw new UnknownError(
+        'Ocorreu um erro desconhecido, nos desculpe pelo transtorno',
+      );
     }
   }
 
@@ -43,10 +46,14 @@ class FireBaseProvider implements IFireBase {
 
         return respose.data.idToken;
       } catch (error) {
-        throw new Error('Error signing in');
+        throw new UnknownError(
+          'Ocorreu um erro desconhecido, nos desculpe pelo transtorno',
+        );
       }
     } catch (error) {
-      throw new Error('Error signing in');
+      throw new UnknownError(
+        'Ocorreu um erro desconhecido, nos desculpe pelo transtorno',
+      );
     }
   }
 
@@ -54,7 +61,9 @@ class FireBaseProvider implements IFireBase {
     try {
       await admin.auth().revokeRefreshTokens(uid);
     } catch (error) {
-      throw new Error('Error signing out user');
+      throw new UnknownError(
+        'Ocorreu um erro desconhecido, nos desculpe pelo transtorno',
+      );
     }
   }
 
