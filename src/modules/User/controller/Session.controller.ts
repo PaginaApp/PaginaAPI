@@ -30,12 +30,13 @@ class SessionController {
   }
 
   async refresh(request: Request, response: Response) {
-    const { refreshToken, usu_Id } = request.body;
+    const { token } = request.body;
+    const { usu_Id } = request.params;
 
     const refreshSession = container.resolve(RefreshSessionService);
 
     const session = await refreshSession.execute({
-      refreshToken,
+      token,
       usu_Id,
     });
 

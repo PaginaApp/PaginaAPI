@@ -10,6 +10,9 @@ export const CreateSessionValidator = celebrate({
 });
 
 export const RefreshSessionValidator = celebrate({
+  [Segments.PARAMS]: {
+    usu_Id: Joi.string().uuid().required(),
+  },
   [Segments.BODY]: {
     token: Joi.string().required(),
   },

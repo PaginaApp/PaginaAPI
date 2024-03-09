@@ -17,7 +17,7 @@ class RefreshSessionService {
 
   async execute({
     usu_Id,
-    refreshToken,
+    token,
   }: IRefreshTokenDTO): Promise<IRefreshTokenResponseDTO> {
     const user = await this.userRepository.findBy({ usu_Id });
 
@@ -25,7 +25,7 @@ class RefreshSessionService {
       throw new AuthorizationError('Sesão não encontrada');
     }
 
-    const tokenData = await this.fireBaseProvider.verifyIdToken(refreshToken);
+    const tokenData = await this.fireBaseProvider.verifyIdToken(token);
 
     if (tokenData.uid !== usu_Id) {
       throw new AuthorizationError('Sesão não encontrada');

@@ -3,6 +3,7 @@ import { SessionController } from '../controller/Session.controller';
 import {
   CreateSessionValidator,
   DeleteSessionValidator,
+  RefreshSessionValidator,
 } from './validators/Session.validator';
 
 const sessionRouter = Router();
@@ -17,6 +18,10 @@ sessionRouter.delete(
   sessionController.delete,
 );
 
-sessionRouter.put('/', sessionController.refresh);
+sessionRouter.put(
+  '/:usu_Id',
+  RefreshSessionValidator,
+  sessionController.refresh,
+);
 
 export { sessionRouter };

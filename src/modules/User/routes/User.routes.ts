@@ -16,7 +16,7 @@ userRouter.get(
   '/:id',
   findByIdMiddleware,
   verifyAutorization([
-    process.env.PAPEL_ADMIN as string,
+    process.env.PAPEL_ADMINISTRADOR as string,
     process.env.PAPEL_USUARIO as string,
   ]),
   userController.FindById,

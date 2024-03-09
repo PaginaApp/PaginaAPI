@@ -1,6 +1,6 @@
 interface IRefreshTokenDTO {
   usu_Id: string;
-  refreshToken: string;
+  token: string;
 }
 
 export { IRefreshTokenDTO };
