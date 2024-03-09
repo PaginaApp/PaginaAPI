@@ -5,6 +5,7 @@ import { UserRepository } from '@modules/User/repository/UserRepository';
 import { IFireBase } from '@shared/container/providers/FireBase/model/IFireBase.interface';
 import { IHashProvider } from '@shared/container/providers/hashProvider/model/IHashProvider';
 import { AuthorizationError } from '@shared/errors/AuthorizationError';
+import { UserMapper } from '@shared/util/UserMapper';
 import { inject, injectable } from 'tsyringe';
 
 @injectable()
@@ -41,11 +42,7 @@ export class CreateSessionService {
 
     const token = await this.fireBaseProvider.signIn(user.usu_Id);
 
-    const showUser: IShowUserDTO = {
-      ...user,
-      usu_Titulo: 'titulo',
-      usu_Nota: 5,
-    };
+    const showUser: IShowUserDTO = UserMapper(user);
 
     return {
       accessToken: token,

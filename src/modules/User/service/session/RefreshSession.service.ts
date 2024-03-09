@@ -1,8 +1,10 @@
 import { IRefreshTokenDTO } from '@modules/User/DTO/IRefreshTokenDTO';
 import { IRefreshTokenResponseDTO } from '@modules/User/DTO/IRefreshTokenResponseDTO';
+import { IShowUserDTO } from '@modules/User/DTO/IShowUserDTO';
 import { UserRepository } from '@modules/User/repository/UserRepository';
 import { IFireBase } from '@shared/container/providers/FireBase/model/IFireBase.interface';
 import { AuthorizationError } from '@shared/errors/AuthorizationError';
+import { UserMapper } from '@shared/util/UserMapper';
 import { inject, injectable } from 'tsyringe';
 
 @injectable()
@@ -35,11 +37,7 @@ class RefreshSessionService {
 
     const newToken = await this.fireBaseProvider.signIn(usu_Id);
 
-    const showUser = {
-      ...user,
-      usu_Titulo: 'titulo',
-      usu_Nota: 5,
-    };
+    const showUser: IShowUserDTO = UserMapper(user);
 
     return {
       user: showUser,
