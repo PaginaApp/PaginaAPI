@@ -1,30 +1,35 @@
+import { IUserRepository } from '@modules/User/repository/UserRepository.interface';
+import { IFireBase } from '@shared/container/providers/FireBase/model/IFireBase.interface';
 import { AuthorizationError } from '@shared/errors/AuthorizationError';
 import { NextFunction, Request, Response } from 'express';
-import { JwtPayload, verify } from 'jsonwebtoken';
+import { container } from 'tsyringe';
 
 export default function verifyAutorization(roles: string[]) {
-  return (req: Request, res: Response, next: NextFunction) => {
-    const authHeader = req.headers.authorization;
+  return async (req: Request, res: Response, next: NextFunction) => {
+    const fireBaseProvider: IFireBase = container.resolve('FireBaseProvider');
 
-    if (!authHeader) {
+    const userRepository: IUserRepository = container.resolve('UserRepository');
+
+    const authHeaderToken = req.headers.authorization;
+
+    if (!authHeaderToken) {
       throw new AuthorizationError('authorization not found');
     }
 
-    const [, token] = authHeader.split(' ');
+    const [, token] = authHeaderToken.split(' ');
 
-    if (roles.length) {
-      if (!req.headers.authorization) {
-        throw new AuthorizationError('authorization not found');
-      }
+    const userAutenticationData = await fireBaseProvider.verifyIdToken(token);
 
-      const tokenData = verify(
-        token,
-        process.env.JWT_SECRET as string,
-      ) as JwtPayload;
+    const user = await userRepository.findBy({
+      usu_Id: userAutenticationData.uid,
+    });
 
-      if (!tokenData.role || !roles.includes(tokenData.role)) {
-        throw new AuthorizationError('user not authorized');
-      }
+    if (!user) {
+      throw new AuthorizationError('User not found');
+    }
+
+    if (!roles.includes(user.usu_pap_id)) {
+      throw new AuthorizationError('User not authorized');
     }
 
     return next();
