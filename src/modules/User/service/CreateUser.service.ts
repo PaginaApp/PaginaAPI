@@ -1,3 +1,4 @@
+import { IFireBase } from '@shared/container/providers/FireBase/model/IFireBase.interface';
 import { IHashProvider } from '@shared/container/providers/hashProvider/model/IHashProvider';
 import { EntityAlreadyExistError } from '@shared/errors/EntityAlreadyExistError';
 import { HashError } from '@shared/errors/HashError';
@@ -14,6 +15,9 @@ class CreateUser {
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
+
+    @inject('FireBaseProvider')
+    private fireBaseProvider: IFireBase,
   ) {}
 
   async execute(DTO: IcreateUserDTO): Promise<User> {
@@ -39,6 +43,12 @@ class CreateUser {
       ...DTO,
       usu_Senha: hashedPassword,
     });
+
+    await this.fireBaseProvider.createUserWithEmailAndPassword(
+      user.usu_Email,
+      DTO.usu_Senha,
+      user.usu_Id,
+    );
 
     return user;
   }

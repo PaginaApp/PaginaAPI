@@ -15,6 +15,7 @@
       "@shared/*": ["src/shared/*"],
       "@error/*": ["src/shared/errors/*"]
     },
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

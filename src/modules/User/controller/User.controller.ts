@@ -21,7 +21,7 @@ class UserController {
       usu_Telefone,
       usu_CPF,
       usu_Nasc,
-      usu_pap_id: '',
+      usu_pap_id: process.env.PAPEL_USUARIO as string,
     });
 
     return res.status(201).json(user);
