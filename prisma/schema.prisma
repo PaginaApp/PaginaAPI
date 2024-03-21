@@ -24,7 +24,7 @@ model User {
     usu_Rua            String?
     usu_Numero         String?
     usu_Bairro         String?
-    usu_CEP            String?             @db.Char(16)
+    usu_CEP            String?             @db.Char(9)
     usu_Complemento    String?
     // relação
     usu_cid_id         String?
