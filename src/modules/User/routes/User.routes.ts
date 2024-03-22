@@ -1,3 +1,4 @@
+import { enderecoRouter } from '@modules/Endereco/routes/Endereco.routes';
 import verifyAutorization from '@shared/middlewares/VerifyAutorization';
 import { Router } from 'express';
 import { UserController } from '../controller/User.controller';
@@ -9,6 +10,8 @@ import {
 const userRouter = Router();
 
 const userController = new UserController();
+
+userRouter.use(enderecoRouter);
 
 userRouter.post('/', createUserMiddleware, userController.create);
 

@@ -33,8 +33,6 @@ class User implements IUser {
 
   usu_Complemento: string | null;
 
-  usu_est_id: string | null;
-
   usu_cid_id: string | null;
 
   usu_CriadoEm: Date;

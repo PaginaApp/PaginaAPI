@@ -1,4 +1,6 @@
+import { IEnderecoDTO } from '@modules/Endereco/DTO/IEnderecoDTO';
 import { prisma } from '@shared/database';
+import { UnknownError } from '@shared/errors/UnknownError';
 import { IPaginatedRequest } from '@shared/interfaces/IPaginatedRequest';
 import { IPaginatedResponse } from '@shared/interfaces/IPaginatedResponse';
 import { IcreateUserDTO } from '../DTO/ICreateUserDTO';
@@ -58,6 +60,38 @@ class UserRepository implements IUserRepository {
     await prisma.user.delete({
       where: { usu_Id: entity.usu_Id },
     });
+  }
+
+  async endereco(data: IEnderecoDTO, usu_Id: string): Promise<IEnderecoDTO> {
+    const endereco = await prisma.user.update({
+      where: { usu_Id },
+      data: {
+        usu_Rua: data.usu_Rua,
+        usu_Numero: data.usu_Numero,
+        usu_Bairro: data.usu_Bairro,
+        usu_CEP: data.usu_CEP,
+        usu_Complemento: data.usu_Complemento,
+        usu_cid_id: data.usu_cid_id,
+      },
+    });
+
+    if (
+      !endereco.usu_Bairro ||
+      !endereco.usu_CEP ||
+      !endereco.usu_Numero ||
+      !endereco.usu_Rua ||
+      !endereco.usu_cid_id
+    ) {
+      throw new UnknownError('Erro ao atualizar endereço');
+    }
+    return {
+      usu_Bairro: endereco.usu_Bairro,
+      usu_CEP: endereco.usu_CEP,
+      usu_Complemento: endereco.usu_Complemento,
+      usu_Numero: endereco.usu_Numero,
+      usu_Rua: endereco.usu_Rua,
+      usu_cid_id: endereco.usu_cid_id,
+    };
   }
 }
 
