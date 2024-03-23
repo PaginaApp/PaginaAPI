@@ -20,7 +20,6 @@ class UpdateUserService {
     usu_CEP,
     usu_Complemento,
     usu_cid_id,
-    usu_est_id,
   }: IUpdateUserDTO): Promise<User> {
     const userExists = await this.userRepository.findBy({ usu_Id });
 
@@ -39,7 +38,6 @@ class UpdateUserService {
       usu_CEP,
       usu_Complemento,
       usu_cid_id,
-      usu_est_id,
     });
 
     return user;

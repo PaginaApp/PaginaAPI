@@ -72,7 +72,6 @@ class UserController {
       usu_CEP,
       usu_Complemento,
       usu_cid_id,
-      usu_est_id,
     } = req.body;
 
     const updateUser = container.resolve(UpdateUserService);
@@ -86,7 +85,6 @@ class UserController {
       usu_CEP,
       usu_Complemento,
       usu_cid_id,
-      usu_est_id,
     });
 
     return res.status(200).json(user);
