@@ -9,6 +9,8 @@ import { routes } from './routes';
 
 const app = express();
 
+app.use(express.json({ limit: '50mb' }));
+
 app.use(json());
 
 app.use(routes);
