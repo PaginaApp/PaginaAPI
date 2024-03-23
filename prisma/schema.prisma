@@ -112,6 +112,10 @@ model Livro {
     liv_cat_liv Categoria_Livro[]
     liv_ldd     Lista_De_Desejos[]
     liv_exe     Exemplar[]
+
+    // padrão
+    liv_CriadoEm     DateTime @default(now())
+    liv_AtualizadoEm DateTime @updatedAt
 }
 
 model Editora {
