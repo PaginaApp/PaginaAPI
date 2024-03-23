@@ -6,5 +6,6 @@ const serviceAccount = require('@shared/container/providers/FireBase/pagina-8230
 export function initializeFirebase() {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
+    storageBucket: process.env.BUCKET_URL,
   });
 }
