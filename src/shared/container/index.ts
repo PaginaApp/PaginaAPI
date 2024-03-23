@@ -1,5 +1,9 @@
+import { AutorRepository } from '@modules/Autor/repository/AutorRepository';
+import { IAutorRepository } from '@modules/Autor/repository/IAutorRepository.interface';
 import { CidadeRepository } from '@modules/Cidade/repository/CidadeRepository';
 import { ICidadeRepository } from '@modules/Cidade/repository/ICidadeRepository.interface';
+import { EditoraRepository } from '@modules/Editora/repository/EditoraRepository';
+import { IEditoraRepository } from '@modules/Editora/repository/IEditoraRepository.interface';
 import { EstadoRepository } from '@modules/Estado/repository/EstadoRepository';
 import { IEstadoRepository } from '@modules/Estado/repository/IEstadoRepository.interface';
 import { IPapelRepository } from '@modules/Papel/repository/IPapelRepository.interface';
@@ -27,6 +31,16 @@ container.registerSingleton<IEstadoRepository>(
 container.registerSingleton<ICidadeRepository>(
   'CidadeRepository',
   CidadeRepository,
+);
+
+container.registerSingleton<IAutorRepository>(
+  'AutorRepository',
+  AutorRepository,
+);
+
+container.registerSingleton<IEditoraRepository>(
+  'EditoraRepository',
+  EditoraRepository,
 );
 
 // utils
