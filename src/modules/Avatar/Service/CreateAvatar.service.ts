@@ -2,7 +2,7 @@ import { UserRepository } from '@modules/User/repository/UserRepository';
 import { IFireBase } from '@shared/container/providers/FireBase/model/IFireBase.interface';
 import { EntityNotFoundError } from '@shared/errors/EntityNotFoundError';
 import { inject, injectable } from 'tsyringe';
-import { AvatarDTO } from '../DTP/AvatarDTO';
+import { AvatarDTO } from '../DTO/AvatarDTO';
 
 @injectable()
 class CreateAvatarService {
