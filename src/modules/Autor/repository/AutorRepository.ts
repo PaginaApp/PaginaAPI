@@ -2,9 +2,9 @@ import { Autor } from '@prisma/client';
 import { prisma } from '@shared/database';
 import { IPaginatedRequest } from '@shared/interfaces/IPaginatedRequest';
 import { IPaginatedResponse } from '@shared/interfaces/IPaginatedResponse';
-import { IAtorRepository } from './IAutorRepository.interface';
+import { IAutorRepository } from './IAutorRepository.interface';
 
-class AtorRepository implements IAtorRepository {
+class AutorRepository implements IAutorRepository {
   async findBy(partial: Partial<Autor>): Promise<Autor | null> {
     const autor = await prisma.autor.findFirst({
       where: partial,
@@ -37,4 +37,4 @@ class AtorRepository implements IAtorRepository {
   }
 }
 
-export { AtorRepository };
+export { AutorRepository };
