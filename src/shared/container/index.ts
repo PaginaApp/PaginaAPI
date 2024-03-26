@@ -6,6 +6,8 @@ import { EditoraRepository } from '@modules/Editora/repository/EditoraRepository
 import { IEditoraRepository } from '@modules/Editora/repository/IEditoraRepository.interface';
 import { EstadoRepository } from '@modules/Estado/repository/EstadoRepository';
 import { IEstadoRepository } from '@modules/Estado/repository/IEstadoRepository.interface';
+import { ILivroRepository } from '@modules/Livro/repository/ILivroRepository.interface';
+import { LivroRepository } from '@modules/Livro/repository/LivroRepository';
 import { IPapelRepository } from '@modules/Papel/repository/IPapelRepository.interface';
 import { PapelRepository } from '@modules/Papel/repository/PapelRepository';
 import { UserRepository } from '@modules/User/repository/UserRepository';
@@ -41,6 +43,11 @@ container.registerSingleton<IAutorRepository>(
 container.registerSingleton<IEditoraRepository>(
   'EditoraRepository',
   EditoraRepository,
+);
+
+container.registerSingleton<ILivroRepository>(
+  'LivroRepository',
+  LivroRepository,
 );
 
 // utils
