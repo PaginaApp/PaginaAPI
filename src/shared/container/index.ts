@@ -1,5 +1,7 @@
 import { AutorRepository } from '@modules/Autor/repository/AutorRepository';
 import { IAutorRepository } from '@modules/Autor/repository/IAutorRepository.interface';
+import { CategoriaRepository } from '@modules/Categoria/repository/CategoriaRepository';
+import { ICategoriaRepository } from '@modules/Categoria/repository/ICategoriaRepository.interface';
 import { CidadeRepository } from '@modules/Cidade/repository/CidadeRepository';
 import { ICidadeRepository } from '@modules/Cidade/repository/ICidadeRepository.interface';
 import { EditoraRepository } from '@modules/Editora/repository/EditoraRepository';
@@ -48,6 +50,11 @@ container.registerSingleton<IEditoraRepository>(
 container.registerSingleton<ILivroRepository>(
   'LivroRepository',
   LivroRepository,
+);
+
+container.registerSingleton<ICategoriaRepository>(
+  'CategoriaRepository',
+  CategoriaRepository,
 );
 
 // utils
