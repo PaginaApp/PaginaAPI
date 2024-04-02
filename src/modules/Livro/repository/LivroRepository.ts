@@ -1,6 +1,8 @@
 import { prisma } from '@shared/database';
 import { IPaginatedRequest } from '@shared/interfaces/IPaginatedRequest';
 import { IPaginatedResponse } from '@shared/interfaces/IPaginatedResponse';
+import { CreateLivroDTO } from '../DTO/CreateLivroDTO';
+import { UpdateLivroDTO } from '../DTO/UpdateLivroDTO';
 import Livro from '../entitie/Livro';
 import { ILivroRepository } from './ILivroRepository.interface';
 
@@ -32,6 +34,35 @@ class LivroRepository implements ILivroRepository {
       page,
       limit,
     };
+  }
+
+  async create(entity: CreateLivroDTO): Promise<Livro> {
+    const livro = await prisma.livro.create({
+      data: entity,
+    });
+
+    return livro;
+  }
+
+  async delete(entity: Livro): Promise<void> {
+    await prisma.livro.delete({
+      where: {
+        liv_Id: entity.liv_Id,
+      },
+    });
+  }
+
+  async update(entity: UpdateLivroDTO): Promise<Livro> {
+    const livro = await prisma.livro.update({
+      where: {
+        liv_Id: entity.liv_Id,
+      },
+      data: {
+        ...entity,
+      },
+    });
+
+    return livro;
   }
 }
 
