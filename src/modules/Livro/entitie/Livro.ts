@@ -9,6 +9,10 @@ class Livro {
 
   liv_ISBN: string;
 
+  liv_aut_id: string;
+
+  liv_edi_id: string;
+
   liv_CriadoEm: Date;
 
   liv_AtualizadoEm: Date;
