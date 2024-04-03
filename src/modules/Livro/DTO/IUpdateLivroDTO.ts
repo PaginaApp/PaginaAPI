@@ -1,4 +1,4 @@
-class UpdateLivroDTO {
+class IUpdateLivroDTO {
   liv_Id: string;
 
   liv_Titulo: string;
@@ -14,4 +14,4 @@ class UpdateLivroDTO {
   liv_edi_id: string;
 }
 
-export { UpdateLivroDTO };
+export { IUpdateLivroDTO };

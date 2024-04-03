@@ -1,6 +1,6 @@
 import { IRepository } from '@shared/interfaces/Repository';
-import { CreateLivroDTO } from '../DTO/CreateLivroDTO';
-import { UpdateLivroDTO } from '../DTO/UpdateLivroDTO';
+import { CreateLivroDTO } from '../DTO/ICreateLivroDTO';
+import { UpdateLivroDTO } from '../DTO/IUpdateLivroDTO';
 import Livro from '../entitie/Livro';
 
 interface ILivroRepository

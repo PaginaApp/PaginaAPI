@@ -1,4 +1,4 @@
-class CreateLivroDTO {
+class ICreateLivroDTO {
   liv_Titulo: string;
 
   liv_Ano: string;
@@ -12,4 +12,4 @@ class CreateLivroDTO {
   liv_edi_id: string;
 }
 
-export { CreateLivroDTO };
+export { ICreateLivroDTO };

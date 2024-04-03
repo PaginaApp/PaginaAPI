@@ -1,8 +1,8 @@
 import { prisma } from '@shared/database';
 import { IPaginatedRequest } from '@shared/interfaces/IPaginatedRequest';
 import { IPaginatedResponse } from '@shared/interfaces/IPaginatedResponse';
-import { CreateLivroDTO } from '../DTO/CreateLivroDTO';
-import { UpdateLivroDTO } from '../DTO/UpdateLivroDTO';
+import { CreateLivroDTO } from '../DTO/ICreateLivroDTO';
+import { UpdateLivroDTO } from '../DTO/IUpdateLivroDTO';
 import Livro from '../entitie/Livro';
 import { ILivroRepository } from './ILivroRepository.interface';
 
