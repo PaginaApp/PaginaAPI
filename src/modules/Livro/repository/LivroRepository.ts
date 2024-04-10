@@ -1,8 +1,8 @@
 import { prisma } from '@shared/database';
 import { IPaginatedRequest } from '@shared/interfaces/IPaginatedRequest';
 import { IPaginatedResponse } from '@shared/interfaces/IPaginatedResponse';
-import { CreateLivroDTO } from '../DTO/ICreateLivroDTO';
-import { UpdateLivroDTO } from '../DTO/IUpdateLivroDTO';
+import { ICreateLivroDTO } from '../DTO/ICreateLivroDTO';
+import { IUpdateLivroDTO } from '../DTO/IUpdateLivroDTO';
 import Livro from '../entitie/Livro';
 import { ILivroRepository } from './ILivroRepository.interface';
 
@@ -36,7 +36,7 @@ class LivroRepository implements ILivroRepository {
     };
   }
 
-  async create(entity: CreateLivroDTO): Promise<Livro> {
+  async create(entity: ICreateLivroDTO): Promise<Livro> {
     const livro = await prisma.livro.create({
       data: entity,
     });
@@ -52,7 +52,7 @@ class LivroRepository implements ILivroRepository {
     });
   }
 
-  async update(entity: UpdateLivroDTO): Promise<Livro> {
+  async update(entity: IUpdateLivroDTO): Promise<Livro> {
     const livro = await prisma.livro.update({
       where: {
         liv_Id: entity.liv_Id,
@@ -63,6 +63,39 @@ class LivroRepository implements ILivroRepository {
     });
 
     return livro;
+  }
+
+  async listByTitulo({
+    page = 1,
+    limit = 10,
+    filter,
+  }: IPaginatedRequest<Livro>): Promise<IPaginatedResponse<Livro>> {
+    const data = await prisma.livro.findMany({
+      where: {
+        liv_Titulo: {
+          contains: filter?.liv_Titulo || '',
+          mode: 'insensitive',
+        },
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    const total = await prisma.livro.count({
+      where: {
+        liv_Titulo: {
+          contains: filter?.liv_Titulo || '',
+          mode: 'insensitive',
+        },
+      },
+    });
+
+    return {
+      results: data,
+      total,
+      page,
+      limit,
+    };
   }
 }
 
