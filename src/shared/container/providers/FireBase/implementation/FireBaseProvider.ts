@@ -87,7 +87,7 @@ class FireBaseProvider implements IFireBase {
       return `File uploaded successfully: ${fileName}`;
     } catch (error) {
       throw new UnknownError(
-        'Ocorreu um erro desconhecido, nos desculpe pelo transtornoooooooooooooooooo',
+        'Ocorreu um erro desconhecido, nos desculpe pelo transtorno',
       );
     }
   }
