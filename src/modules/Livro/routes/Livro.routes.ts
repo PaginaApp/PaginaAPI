@@ -1,10 +1,12 @@
 import { Router } from 'express';
 import { LivroController } from '../controller/Livro.controller';
 import {
+  crateLivroMiddleware,
   findLivroByISBNMiddleware,
   findLivroByNameMiddleware,
   listLivroByISBNMiddleware,
   listLivroByNameMiddleware,
+  updateLivroMiddleware,
 } from './validators/Livro.validator';
 
 const livroRoutes = Router();
@@ -30,5 +32,9 @@ livroRoutes.get(
 );
 
 livroRoutes.get('/ISBN', listLivroByISBNMiddleware, livroController.listByISBN);
+
+livroRoutes.post('/', crateLivroMiddleware, livroController.createLivro);
+
+livroRoutes.put('/:liv_Id', updateLivroMiddleware, livroController.updateLivro);
 
 export { livroRoutes };

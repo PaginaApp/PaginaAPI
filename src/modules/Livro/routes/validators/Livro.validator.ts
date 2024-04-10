@@ -16,8 +16,6 @@ export const listLivroByNameMiddleware = celebrate({
   query: {
     page: Joi.number().required(),
     limit: Joi.number().required(),
-  },
-  params: {
     liv_Titulo: Joi.string().required(),
   },
 });
@@ -27,7 +25,33 @@ export const listLivroByISBNMiddleware = celebrate({
     page: Joi.number().required(),
     limit: Joi.number().required(),
   },
-  params: {
+  body: {
     liv_ISBN: Joi.string().required(),
+  },
+});
+
+export const crateLivroMiddleware = celebrate({
+  body: {
+    liv_Titulo: Joi.string().required(),
+    liv_Ano: Joi.string().required(),
+    liv_Sinopse: Joi.string().required(),
+    liv_ISBN: Joi.string().required(),
+    liv_aut_id: Joi.string().uuid().required(),
+    liv_edi_id: Joi.string().uuid().required(),
+  },
+});
+
+export const updateLivroMiddleware = celebrate({
+  body: {
+    liv_Titulo: Joi.string().required(),
+    liv_Ano: Joi.string().required(),
+    liv_Sinopse: Joi.string().required(),
+    liv_ISBN: Joi.string().required(),
+    liv_aut_id: Joi.string().uuid().required(),
+    liv_edi_id: Joi.string().uuid().required(),
+  },
+
+  params: {
+    liv_Id: Joi.string().uuid().required(),
   },
 });
