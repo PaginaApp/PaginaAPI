@@ -16,7 +16,7 @@ class ListByNameService {
     page,
     limit,
   }: IPaginatedRequest<Livro>): Promise<IPaginatedResponse<Livro>> {
-    const livros = await this.livroRepository.listBy({
+    const livros = await this.livroRepository.listByTitulo({
       filter,
       limit,
       page,
