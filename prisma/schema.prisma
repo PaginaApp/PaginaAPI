@@ -104,6 +104,7 @@ model Livro {
     liv_Titulo  String
     liv_Ano     String             @db.Char(4)
     liv_Sinopse String
+    liv_ISBN    String             @unique @db.Char(13)
     // relação
     liv_edi_id  String
     liv_edi     Editora            @relation(fields: [liv_edi_id], references: [edi_Id])
@@ -112,6 +113,10 @@ model Livro {
     liv_cat_liv Categoria_Livro[]
     liv_ldd     Lista_De_Desejos[]
     liv_exe     Exemplar[]
+
+    // padrão
+    liv_CriadoEm     DateTime @default(now())
+    liv_AtualizadoEm DateTime @updatedAt
 }
 
 model Editora {

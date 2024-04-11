@@ -1,7 +1,17 @@
+import { AutorRepository } from '@modules/Autor/repository/AutorRepository';
+import { IAutorRepository } from '@modules/Autor/repository/IAutorRepository.interface';
+import { CategoriaLivroRepository } from '@modules/Categoria-Livro/repository/CategoriaLivroRepository';
+import { ICategoriaLivroRepository } from '@modules/Categoria-Livro/repository/ICategoria_LivroRepository.interface';
+import { CategoriaRepository } from '@modules/Categoria/repository/CategoriaRepository';
+import { ICategoriaRepository } from '@modules/Categoria/repository/ICategoriaRepository.interface';
 import { CidadeRepository } from '@modules/Cidade/repository/CidadeRepository';
 import { ICidadeRepository } from '@modules/Cidade/repository/ICidadeRepository.interface';
+import { EditoraRepository } from '@modules/Editora/repository/EditoraRepository';
+import { IEditoraRepository } from '@modules/Editora/repository/IEditoraRepository.interface';
 import { EstadoRepository } from '@modules/Estado/repository/EstadoRepository';
 import { IEstadoRepository } from '@modules/Estado/repository/IEstadoRepository.interface';
+import { ILivroRepository } from '@modules/Livro/repository/ILivroRepository.interface';
+import { LivroRepository } from '@modules/Livro/repository/LivroRepository';
 import { IPapelRepository } from '@modules/Papel/repository/IPapelRepository.interface';
 import { PapelRepository } from '@modules/Papel/repository/PapelRepository';
 import { UserRepository } from '@modules/User/repository/UserRepository';
@@ -27,6 +37,31 @@ container.registerSingleton<IEstadoRepository>(
 container.registerSingleton<ICidadeRepository>(
   'CidadeRepository',
   CidadeRepository,
+);
+
+container.registerSingleton<IAutorRepository>(
+  'AutorRepository',
+  AutorRepository,
+);
+
+container.registerSingleton<IEditoraRepository>(
+  'EditoraRepository',
+  EditoraRepository,
+);
+
+container.registerSingleton<ILivroRepository>(
+  'LivroRepository',
+  LivroRepository,
+);
+
+container.registerSingleton<ICategoriaRepository>(
+  'CategoriaRepository',
+  CategoriaRepository,
+);
+
+container.registerSingleton<ICategoriaLivroRepository>(
+  'CategoriaLivroRepository',
+  CategoriaLivroRepository,
 );
 
 // utils
