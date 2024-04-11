@@ -76,6 +76,46 @@ class FireBaseProvider implements IFireBase {
       throw new AuthorizationError('Usuário não autorizado');
     }
   }
+
+  // bucket operations
+
+  async uploadFile(fileName: string, fileContent: Buffer): Promise<string> {
+    try {
+      const bucket = admin.storage().bucket();
+      const file = bucket.file(fileName);
+      await file.save(fileContent);
+      return `File uploaded successfully: ${fileName}`;
+    } catch (error) {
+      throw new UnknownError(
+        'Ocorreu um erro desconhecido, nos desculpe pelo transtorno',
+      );
+    }
+  }
+
+  async downloadFile(fileName: string): Promise<Buffer> {
+    try {
+      const bucket = admin.storage().bucket();
+      const file = bucket.file(fileName);
+      const [fileContent] = await file.download();
+      return fileContent;
+    } catch (error) {
+      throw new UnknownError(
+        'Ocorreu um erro desconhecido, nos desculpe pelo transtorno',
+      );
+    }
+  }
+
+  async deleteFile(fileName: string): Promise<void> {
+    try {
+      const bucket = admin.storage().bucket();
+      const file = bucket.file(fileName);
+      await file.delete();
+    } catch (error) {
+      throw new UnknownError(
+        'Ocorreu um erro desconhecido, nos desculpe pelo transtorno',
+      );
+    }
+  }
 }
 
 export { FireBaseProvider };

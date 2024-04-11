@@ -13,9 +13,9 @@ class IUpdateUserDTO {
 
   usu_Complemento?: string;
 
-  usu_est_id?: string;
-
   usu_cid_id?: string;
+
+  usu_avatar?: string;
 }
 
 export { IUpdateUserDTO };
