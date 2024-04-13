@@ -2,9 +2,9 @@ import { prisma } from '@shared/database';
 import { IPaginatedRequest } from '@shared/interfaces/IPaginatedRequest';
 import { IPaginatedResponse } from '@shared/interfaces/IPaginatedResponse';
 import { EstadoPaginas } from '../entitie/EstadoPaginas';
-import { IEstadoPaginaRepository } from './IEstadoPaginaRepository.interface';
+import { IEstadoPaginasRepository } from './IEstadoPaginaRepository.interface';
 
-class EstadoPaginaRepository implements IEstadoPaginaRepository {
+class EstadoPaginasRepository implements IEstadoPaginasRepository {
   async findBy(partial: Partial<EstadoPaginas>): Promise<EstadoPaginas | null> {
     const data = await prisma.estado_Paginas.findFirst({
       where: partial,
@@ -39,4 +39,4 @@ class EstadoPaginaRepository implements IEstadoPaginaRepository {
   }
 }
 
-export { EstadoPaginaRepository };
+export { EstadoPaginasRepository };

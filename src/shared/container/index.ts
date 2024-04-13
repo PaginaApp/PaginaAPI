@@ -10,10 +10,12 @@ import { EditoraRepository } from '@modules/Editora/repository/EditoraRepository
 import { IEditoraRepository } from '@modules/Editora/repository/IEditoraRepository.interface';
 import { EstadoCapaRepository } from '@modules/Estado-Capa/repository/EstadoCapaRepository';
 import { IEstadoCapaRepository } from '@modules/Estado-Capa/repository/IEstadoCapaRepository.interface';
-import { EstadoPaginaRepository } from '@modules/Estado-Paginas/repository/EstadoPaginaRepository';
-import { IEstadoPaginaRepository } from '@modules/Estado-Paginas/repository/IEstadoPaginaRepository.interface';
+import { EstadoPaginasRepository } from '@modules/Estado-Paginas/repository/EstadoPaginaRepository';
+import { IEstadoPaginasRepository } from '@modules/Estado-Paginas/repository/IEstadoPaginaRepository.interface';
 import { EstadoRepository } from '@modules/Estado/repository/EstadoRepository';
 import { IEstadoRepository } from '@modules/Estado/repository/IEstadoRepository.interface';
+import { ExemplarRepository } from '@modules/Exemplar/repository/ExemplarRepository';
+import { IExemplarRepository } from '@modules/Exemplar/repository/IExemplarRepository.interface';
 import { ILivroRepository } from '@modules/Livro/repository/ILivroRepository.interface';
 import { LivroRepository } from '@modules/Livro/repository/LivroRepository';
 import { IPapelRepository } from '@modules/Papel/repository/IPapelRepository.interface';
@@ -73,9 +75,14 @@ container.registerSingleton<IEstadoCapaRepository>(
   EstadoCapaRepository,
 );
 
-container.registerSingleton<IEstadoPaginaRepository>(
-  'EstadoPaginaRepository',
-  EstadoPaginaRepository,
+container.registerSingleton<IEstadoPaginasRepository>(
+  'EstadoPaginasRepository',
+  EstadoPaginasRepository,
+);
+
+container.registerSingleton<IExemplarRepository>(
+  'ExemplarRepository',
+  ExemplarRepository,
 );
 
 // utils
