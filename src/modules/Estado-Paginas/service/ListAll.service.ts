@@ -1,18 +1,18 @@
 import { inject, injectable } from 'tsyringe';
 import { EstadoPaginas } from '../entitie/EstadoPaginas';
-import { IEstadoPaginaRepository } from '../repository/IEstadoPaginaRepository.interface';
+import { IEstadoPaginasRepository } from '../repository/IEstadoPaginaRepository.interface';
 
 @injectable()
 class ListAllService {
   constructor(
-    @inject('EstadoPaginaRepository')
-    private estadoPaginaRepository: IEstadoPaginaRepository,
+    @inject('EstadoPaginasRepository')
+    private estadoPaginasRepository: IEstadoPaginasRepository,
   ) {}
 
   async execute(): Promise<EstadoPaginas[]> {
-    const estadoPagina = await this.estadoPaginaRepository.listBy({});
+    const estadoPaginas = await this.estadoPaginasRepository.listBy({});
 
-    return estadoPagina.results;
+    return estadoPaginas.results;
   }
 }
 
