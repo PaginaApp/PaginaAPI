@@ -46,3 +46,13 @@ export const updateUserMiddleware = celebrate({
     usu_cid_id: Joi.string(),
   },
 });
+
+export const changePasswordMiddleware = celebrate({
+  params: {
+    usu_Id: Joi.string().uuid().required(),
+  },
+  body: {
+    usu_Senha: Joi.string().required(),
+    novaSenha: Joi.string().required(),
+  },
+});

@@ -93,6 +93,17 @@ class UserRepository implements IUserRepository {
       usu_cid_id: endereco.usu_cid_id,
     };
   }
+
+  async changePassword(usu_Id: string, newPassword: string): Promise<User> {
+    const user = await prisma.user.update({
+      where: { usu_Id },
+      data: {
+        usu_Senha: newPassword,
+      },
+    });
+
+    return user;
+  }
 }
 
 export { UserRepository };
