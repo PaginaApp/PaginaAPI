@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { User } from '../entity/User';
+import { ChangePasswordService } from '../service/ChangePassword.service';
 import { CreateUser } from '../service/CreateUser.service';
 import { DeleteUserService } from '../service/DeleteUser.service';
 import { FindById } from '../service/FindById.service';
@@ -85,6 +86,21 @@ class UserController {
       usu_CEP,
       usu_Complemento,
       usu_cid_id,
+    });
+
+    return res.status(200).json(user);
+  }
+
+  async ChangePassword(req: Request, res: Response) {
+    const { usu_Id } = req.params;
+    const { usu_Senha, novaSenha } = req.body;
+
+    const changePassword = container.resolve(ChangePasswordService);
+
+    const user = await changePassword.execute({
+      usu_Id,
+      usu_Senha,
+      novaSenha,
     });
 
     return res.status(200).json(user);
