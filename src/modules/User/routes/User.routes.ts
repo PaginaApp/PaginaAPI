@@ -4,8 +4,11 @@ import verifyAutorization from '@shared/middlewares/VerifyAutorization';
 import { Router } from 'express';
 import { UserController } from '../controller/User.controller';
 import {
+  changePasswordMiddleware,
   createUserMiddleware,
   findByIdMiddleware,
+  listUserMiddleware,
+  updateUserMiddleware,
 } from './validators/User.validator';
 
 const userRouter = Router();
@@ -30,8 +33,14 @@ userRouter.get(
 
 userRouter.delete('/:id', findByIdMiddleware, userController.DeleteUser);
 
-userRouter.get('/', userController.ListUser);
+userRouter.get('/', listUserMiddleware, userController.ListUser);
 
-userRouter.put('/:usu_Id', userController.UpdateUser);
+userRouter.put('/:usu_Id', updateUserMiddleware, userController.UpdateUser);
+
+userRouter.put(
+  '/:usu_Id/senha',
+  changePasswordMiddleware,
+  userController.ChangePassword,
+);
 
 export { userRouter };
