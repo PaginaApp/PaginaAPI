@@ -6,6 +6,7 @@ import {
   findExemplarMiddleware,
   listExemplarByLivroMiddleware,
   listExemplarByUserMiddleware,
+  listExemplarMiddleware,
   updateExemplarMiddleware,
 } from './validator/Exemplar.validator';
 
@@ -45,6 +46,12 @@ exemplarRoutes.get(
   '/livro/:exe_liv_id',
   listExemplarByLivroMiddleware,
   exemplarController.listExemplarByLivro,
+);
+
+exemplarRoutes.get(
+  '/',
+  listExemplarMiddleware,
+  exemplarController.listExemplar,
 );
 
 export { exemplarRoutes };

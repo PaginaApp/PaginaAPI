@@ -6,6 +6,7 @@ import { DeleteExemplarService } from '../service/DeleteExemplar.service';
 import { FindExemplarByIdService } from '../service/FindExemplarById.service';
 import { ListExemplarByLivroService } from '../service/ListaExemplarByLivro.service';
 import { ListExemplarByUserService } from '../service/ListExemparByUser.service';
+import { ListHomeService } from '../service/ListHome.service';
 import { UpdateExemplarService } from '../service/UpdateExemplar.service';
 
 class ExemplarController {
@@ -112,6 +113,19 @@ class ExemplarController {
     const exemplar = await findExemplarByIdService.execute(exe_Id);
 
     return res.status(200).json(exemplar);
+  }
+
+  async listExemplar(req: Request, res: Response) {
+    const { page, limit } = req.query;
+
+    const listExemplarByUserService = container.resolve(ListHomeService);
+
+    const data = await listExemplarByUserService.execute({
+      page: Number(page),
+      limit: Number(limit),
+    });
+
+    return res.status(200).json(data);
   }
 }
 

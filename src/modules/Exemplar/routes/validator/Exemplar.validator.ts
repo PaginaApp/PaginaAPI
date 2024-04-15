@@ -58,3 +58,10 @@ export const findExemplarMiddleware = celebrate({
     exe_Id: Joi.string().required().uuid(),
   },
 });
+
+export const listExemplarMiddleware = celebrate({
+  query: {
+    page: Joi.number().required(),
+    limit: Joi.number().required(),
+  },
+});
