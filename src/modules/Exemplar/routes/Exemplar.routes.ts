@@ -1,3 +1,4 @@
+import { imagemExemplarRoutes } from '@modules/Imagem-Exemplar/routes/ImagemExemplar.routes';
 import { Router } from 'express';
 import { ExemplarController } from '../controller/Exemplar.controller';
 import {
@@ -13,6 +14,8 @@ import {
 const exemplarRoutes = Router();
 
 const exemplarController = new ExemplarController();
+
+exemplarRoutes.use(imagemExemplarRoutes);
 
 exemplarRoutes.post('/', createExemplarMiddleware, exemplarController.create);
 
