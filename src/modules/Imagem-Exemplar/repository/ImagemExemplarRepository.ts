@@ -48,7 +48,7 @@ class ImagemExemplarRepository implements IImagemExemplarRepository {
     const data = await prisma.imagem_Exemplar.findMany({
       where: filter,
       take: limit,
-      skip: page,
+      skip: (page - 1) * limit,
     });
 
     const total = await prisma.imagem_Exemplar.count({
