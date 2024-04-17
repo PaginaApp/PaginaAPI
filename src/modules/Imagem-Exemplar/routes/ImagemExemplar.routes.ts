@@ -28,4 +28,9 @@ imagemExemplarRoutes.delete(
   imagemExemplarController.delete,
 );
 
+imagemExemplarRoutes.get(
+  '/:exe_Id/imagem-exemplar',
+  imagemExemplarController.listImagemExemplarByExemplarId,
+);
+
 export { imagemExemplarRoutes };
