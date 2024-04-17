@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import { CreateImagemExemplarService } from '../service/CreateImagemExemplar.service';
 import { DeleteImagemExemplarService } from '../service/DeleteImagemExemplar.service';
 import { GetImagemExemplarService } from '../service/GetImagemExemplar.service';
+import { ListImagemExemplarByExemplarIdService } from '../service/ListImagemExemplarByExemplarId.service';
 
 class ImagemExemplarController {
   async create(request: Request, response: Response): Promise<Response> {
@@ -46,6 +47,21 @@ class ImagemExemplarController {
 
     response.set('Content-Type', 'image/png');
     return response.status(200).send(file);
+  }
+
+  async listImagemExemplarByExemplarId(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { exe_Id } = request.params;
+
+    const listImagemExemplarByExemplarIdService = container.resolve(
+      ListImagemExemplarByExemplarIdService,
+    );
+
+    const imagens = await listImagemExemplarByExemplarIdService.execute(exe_Id);
+
+    return response.status(200).json(imagens);
   }
 }
 
