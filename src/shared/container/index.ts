@@ -10,6 +10,8 @@ import { EditoraRepository } from '@modules/Editora/repository/EditoraRepository
 import { IEditoraRepository } from '@modules/Editora/repository/IEditoraRepository.interface';
 import { EstadoRepository } from '@modules/Estado/repository/EstadoRepository';
 import { IEstadoRepository } from '@modules/Estado/repository/IEstadoRepository.interface';
+import { ListaDeDesejoRepository } from '@modules/Listas-de-desejos/repository/ListaDeDesejoRepository';
+import { IListaDeDesejoRepository } from '@modules/Listas-de-desejos/repository/ListaDeDesejoRepository.interface';
 import { ILivroRepository } from '@modules/Livro/repository/ILivroRepository.interface';
 import { LivroRepository } from '@modules/Livro/repository/LivroRepository';
 import { IPapelRepository } from '@modules/Papel/repository/IPapelRepository.interface';
@@ -62,6 +64,11 @@ container.registerSingleton<ICategoriaRepository>(
 container.registerSingleton<ICategoriaLivroRepository>(
   'CategoriaLivroRepository',
   CategoriaLivroRepository,
+);
+
+container.registerSingleton<IListaDeDesejoRepository>(
+  'ListaDeDesejoRepository',
+  ListaDeDesejoRepository,
 );
 
 // utils
