@@ -16,7 +16,7 @@ export const listLivroByNameMiddleware = celebrate({
   query: {
     page: Joi.number().required(),
     limit: Joi.number().required(),
-    liv_Titulo: Joi.string().required(),
+    liv_Titulo: Joi.string(),
   },
 });
 

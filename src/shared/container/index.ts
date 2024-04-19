@@ -8,8 +8,16 @@ import { CidadeRepository } from '@modules/Cidade/repository/CidadeRepository';
 import { ICidadeRepository } from '@modules/Cidade/repository/ICidadeRepository.interface';
 import { EditoraRepository } from '@modules/Editora/repository/EditoraRepository';
 import { IEditoraRepository } from '@modules/Editora/repository/IEditoraRepository.interface';
+import { EstadoCapaRepository } from '@modules/Estado-Capa/repository/EstadoCapaRepository';
+import { IEstadoCapaRepository } from '@modules/Estado-Capa/repository/IEstadoCapaRepository.interface';
+import { EstadoPaginasRepository } from '@modules/Estado-Paginas/repository/EstadoPaginaRepository';
+import { IEstadoPaginasRepository } from '@modules/Estado-Paginas/repository/IEstadoPaginaRepository.interface';
 import { EstadoRepository } from '@modules/Estado/repository/EstadoRepository';
 import { IEstadoRepository } from '@modules/Estado/repository/IEstadoRepository.interface';
+import { ExemplarRepository } from '@modules/Exemplar/repository/ExemplarRepository';
+import { IExemplarRepository } from '@modules/Exemplar/repository/IExemplarRepository.interface';
+import { ImagemExemplarRepository } from '@modules/Imagem-Exemplar/repository/ImagemExemplarRepository';
+import { IImagemExemplarRepository } from '@modules/Imagem-Exemplar/repository/ImagemExemplarRepository.interface';
 import { ILivroRepository } from '@modules/Livro/repository/ILivroRepository.interface';
 import { LivroRepository } from '@modules/Livro/repository/LivroRepository';
 import { IPapelRepository } from '@modules/Papel/repository/IPapelRepository.interface';
@@ -62,6 +70,26 @@ container.registerSingleton<ICategoriaRepository>(
 container.registerSingleton<ICategoriaLivroRepository>(
   'CategoriaLivroRepository',
   CategoriaLivroRepository,
+);
+
+container.registerSingleton<IEstadoCapaRepository>(
+  'EstadoCapaRepository',
+  EstadoCapaRepository,
+);
+
+container.registerSingleton<IEstadoPaginasRepository>(
+  'EstadoPaginasRepository',
+  EstadoPaginasRepository,
+);
+
+container.registerSingleton<IExemplarRepository>(
+  'ExemplarRepository',
+  ExemplarRepository,
+);
+
+container.registerSingleton<IImagemExemplarRepository>(
+  'ImagemExemplarRepository',
+  ImagemExemplarRepository,
 );
 
 // utils
