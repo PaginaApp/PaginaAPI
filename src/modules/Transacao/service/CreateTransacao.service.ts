@@ -123,6 +123,12 @@ class CreateTransacaoService {
       });
     }
 
+    // adiciona tipo e status a transação
+    Object.assign(transacao, {
+      ttr: tipoTransacao,
+      str: statusTransacao,
+    });
+
     // adiciona exemplar principal e se existir secundario a transação
     Object.assign(transacao, {
       exe_Principal: exemplarPrincipal,
