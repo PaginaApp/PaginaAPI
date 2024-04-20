@@ -27,7 +27,7 @@ class TransacaoController {
       // tipo da transação
       trs_ttr_id,
       // status da transação em espera, aguardando aprovação do anunciante
-      trs_str_id: process.env.TRANSACAO_STATUS_INICIAL_ID as string,
+      trs_str_id: process.env.TRANSACAO_STATUS_INICIAL as string,
       trs_usu_Leitor_id,
       trs_usu_Anunciante_id,
       exe_Principal_id,
