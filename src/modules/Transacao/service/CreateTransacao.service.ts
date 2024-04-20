@@ -58,6 +58,12 @@ class CreateTransacaoService {
       throw new EntityNotFoundError('Exemplar não encontrado');
     }
 
+    if (exemplarPrincipal.exe_usu_id !== data.trs_usu_Anunciante_id) {
+      throw new EntityNotFoundError(
+        'Usuário não é o anunciante do exemplar principal',
+      );
+    }
+
     if (data.exe_Secundario_id) {
       const exemplarSecundario = await this.exemplarRepository.findBy({
         exe_Id: data.exe_Secundario_id,
