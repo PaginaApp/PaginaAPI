@@ -30,6 +30,8 @@ import { TipoTransacaoRepository } from '@modules/Tipo-Transacao/repository/Tipo
 import { ITipoTransacaoRepository } from '@modules/Tipo-Transacao/repository/TipoTransacaoRepository.interface';
 import { TransacaoAceitaRepository } from '@modules/Transacao-Aceita/repository/TransacaoAceitaRepositori';
 import { ITransacaoAceitaRepository } from '@modules/Transacao-Aceita/repository/TransacaoAceitaRepository.interface';
+import { TransacaoRepository } from '@modules/Transacao/repository/TransacaoRepository';
+import { ITransacaoRepository } from '@modules/Transacao/repository/TransacaoRepository.interface';
 import { UserRepository } from '@modules/User/repository/UserRepository';
 import { IUserRepository } from '@modules/User/repository/UserRepository.interface';
 import { container } from 'tsyringe';
@@ -114,11 +116,16 @@ container.registerSingleton<ITransacaoAceitaRepository>(
   'TransacaoAceitaRepository',
   TransacaoAceitaRepository,
 );
+
 container.registerSingleton<IStatusTransacaoRepository>(
   'StatusTransacaoRepository',
   StatusTransacaoRepository,
 );
 
+container.registerSingleton<ITransacaoRepository>(
+  'TransacaoRepository',
+  TransacaoRepository,
+);
 // utils
 container.registerSingleton<IHashProvider>('HashProvider', HashProvider);
 
