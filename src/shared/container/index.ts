@@ -14,6 +14,8 @@ import { EstadoPaginasRepository } from '@modules/Estado-Paginas/repository/Esta
 import { IEstadoPaginasRepository } from '@modules/Estado-Paginas/repository/IEstadoPaginaRepository.interface';
 import { EstadoRepository } from '@modules/Estado/repository/EstadoRepository';
 import { IEstadoRepository } from '@modules/Estado/repository/IEstadoRepository.interface';
+import { ExemplarTransacaoRepository } from '@modules/Exemplar-Transacao/repository/ExemplarTransacaoRepository';
+import { IExemplarTransacaoRepository } from '@modules/Exemplar-Transacao/repository/ExemplarTransacaoRepository.interface';
 import { ExemplarRepository } from '@modules/Exemplar/repository/ExemplarRepository';
 import { IExemplarRepository } from '@modules/Exemplar/repository/IExemplarRepository.interface';
 import { ImagemExemplarRepository } from '@modules/Imagem-Exemplar/repository/ImagemExemplarRepository';
@@ -22,8 +24,12 @@ import { ILivroRepository } from '@modules/Livro/repository/ILivroRepository.int
 import { LivroRepository } from '@modules/Livro/repository/LivroRepository';
 import { IPapelRepository } from '@modules/Papel/repository/IPapelRepository.interface';
 import { PapelRepository } from '@modules/Papel/repository/PapelRepository';
+import { StatusTransacaoRepository } from '@modules/Status-Transacao/repository/StatusTransacaoRepository';
+import { IStatusTransacaoRepository } from '@modules/Status-Transacao/repository/StatusTransacaoRepository.interface';
 import { TipoTransacaoRepository } from '@modules/Tipo-Transacao/repository/TipoTransacaoRepository';
 import { ITipoTransacaoRepository } from '@modules/Tipo-Transacao/repository/TipoTransacaoRepository.interface';
+import { TransacaoAceitaRepository } from '@modules/Transacao-Aceita/repository/TransacaoAceitaRepositori';
+import { ITransacaoAceitaRepository } from '@modules/Transacao-Aceita/repository/TransacaoAceitaRepository.interface';
 import { UserRepository } from '@modules/User/repository/UserRepository';
 import { IUserRepository } from '@modules/User/repository/UserRepository.interface';
 import { container } from 'tsyringe';
@@ -97,6 +103,20 @@ container.registerSingleton<IImagemExemplarRepository>(
 container.registerSingleton<ITipoTransacaoRepository>(
   'TipoTransacaoRepository',
   TipoTransacaoRepository,
+);
+
+container.registerSingleton<IExemplarTransacaoRepository>(
+  'ExemplarTransacaoRepository',
+  ExemplarTransacaoRepository,
+);
+
+container.registerSingleton<ITransacaoAceitaRepository>(
+  'TransacaoAceitaRepository',
+  TransacaoAceitaRepository,
+);
+container.registerSingleton<IStatusTransacaoRepository>(
+  'StatusTransacaoRepository',
+  StatusTransacaoRepository,
 );
 
 // utils
