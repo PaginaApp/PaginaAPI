@@ -22,6 +22,8 @@ import { ILivroRepository } from '@modules/Livro/repository/ILivroRepository.int
 import { LivroRepository } from '@modules/Livro/repository/LivroRepository';
 import { IPapelRepository } from '@modules/Papel/repository/IPapelRepository.interface';
 import { PapelRepository } from '@modules/Papel/repository/PapelRepository';
+import { TipoTransacaoRepository } from '@modules/Tipo-Transacao/repository/TipoTransacaoRepository';
+import { ITipoTransacaoRepository } from '@modules/Tipo-Transacao/repository/TipoTransacaoRepository.interface';
 import { UserRepository } from '@modules/User/repository/UserRepository';
 import { IUserRepository } from '@modules/User/repository/UserRepository.interface';
 import { container } from 'tsyringe';
@@ -90,6 +92,11 @@ container.registerSingleton<IExemplarRepository>(
 container.registerSingleton<IImagemExemplarRepository>(
   'ImagemExemplarRepository',
   ImagemExemplarRepository,
+);
+
+container.registerSingleton<ITipoTransacaoRepository>(
+  'TipoTransacaoRepository',
+  TipoTransacaoRepository,
 );
 
 // utils
