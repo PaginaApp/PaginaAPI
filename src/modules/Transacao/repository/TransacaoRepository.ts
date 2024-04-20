@@ -10,9 +10,13 @@ class TransacaoRepository implements ITransacaoRepository {
   async create(entity: CreateTransacaoDTO): Promise<Transacao> {
     const data = await prisma.transacao.create({
       data: {
-        ...entity,
         trs_Prazo: entity.trs_Prazo || 0,
         trs_Preco: entity.trs_Preco || 0,
+        trs_str_id: entity.trs_str_id,
+        trs_ttr_id: entity.trs_ttr_id,
+        trs_usu_Anunciante_id: entity.trs_usu_Anunciante_id,
+        trs_usu_Leitor_id: entity.trs_usu_Leitor_id,
+        trs_Data: entity.trs_Data,
       },
     });
 
