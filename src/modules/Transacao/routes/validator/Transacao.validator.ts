@@ -13,3 +13,9 @@ export const CreateTransacaoMiddleware = celebrate({
     exe_Secundario_id: Joi.string().optional(),
   },
 });
+
+export const FindTransacaoByIdMiddleware = celebrate({
+  params: {
+    trs_Id: Joi.string().required().uuid(),
+  },
+});
