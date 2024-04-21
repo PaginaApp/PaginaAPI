@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { CreateTransacaoService } from '../service/CreateTransacao.service';
+import { FindTransacaoByIdService } from '../service/FindTransacaoById.service';
 
 class TransacaoController {
   async create(request: Request, response: Response) {
@@ -35,6 +36,18 @@ class TransacaoController {
     });
 
     return response.status(201).json(transacao);
+  }
+
+  async findById(request: Request, response: Response) {
+    const { trs_Id } = request.params;
+
+    const findTransacaoByIdService = container.resolve(
+      FindTransacaoByIdService,
+    );
+
+    const transacao = await findTransacaoByIdService.execute(trs_Id);
+
+    return response.status(200).json(transacao);
   }
 }
 
