@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { TransacaoController } from '../controller/Transacao.controller';
 import {
+  AceitarTransacaoMiddleware,
   CreateTransacaoMiddleware,
   FindTransacaoByIdMiddleware,
 } from './validator/Transacao.validator';
@@ -19,6 +20,12 @@ transacaoRoutes.get(
   '/:trs_Id',
   FindTransacaoByIdMiddleware,
   transacaoController.findById,
+);
+
+transacaoRoutes.put(
+  '/:trs_Id/aceitar',
+  AceitarTransacaoMiddleware,
+  transacaoController.aceitarTransacao,
 );
 
 export { transacaoRoutes };
