@@ -25,3 +25,9 @@ export const AceitarTransacaoMiddleware = celebrate({
     trs_Id: Joi.string().required().uuid(),
   },
 });
+
+export const ListTransacaoUserAnuncianteMiddleware = celebrate({
+  params: {
+    trs_usu_Anunciante_id: Joi.string().required().uuid(),
+  },
+});

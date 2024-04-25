@@ -4,6 +4,7 @@ import {
   AceitarTransacaoMiddleware,
   CreateTransacaoMiddleware,
   FindTransacaoByIdMiddleware,
+  ListTransacaoUserAnuncianteMiddleware,
 } from './validator/Transacao.validator';
 
 const transacaoRoutes = Router();
@@ -26,6 +27,12 @@ transacaoRoutes.put(
   '/:trs_Id/aceitar',
   AceitarTransacaoMiddleware,
   transacaoController.aceitarTransacao,
+);
+
+transacaoRoutes.get(
+  '/anunciante/:trs_usu_Anunciante_id',
+  ListTransacaoUserAnuncianteMiddleware,
+  transacaoController.ListTransacaoUserAnunciante,
 );
 
 export { transacaoRoutes };
