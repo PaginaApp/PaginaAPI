@@ -5,6 +5,7 @@ import {
   CreateTransacaoMiddleware,
   FindTransacaoByIdMiddleware,
   ListTransacaoUserAnuncianteMiddleware,
+  ListTransacaoUserLeitorMiddleware,
 } from './validator/Transacao.validator';
 
 const transacaoRoutes = Router();
@@ -33,6 +34,12 @@ transacaoRoutes.get(
   '/anunciante/:trs_usu_Anunciante_id',
   ListTransacaoUserAnuncianteMiddleware,
   transacaoController.ListTransacaoUserAnunciante,
+);
+
+transacaoRoutes.get(
+  '/leitor/:trs_usu_Leitor_id',
+  ListTransacaoUserLeitorMiddleware,
+  transacaoController.ListTransacaoUserLeitor,
 );
 
 export { transacaoRoutes };
