@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import { AceitarTransacaoService } from '../service/AceitarTransacao.service';
 import { CreateTransacaoService } from '../service/CreateTransacao.service';
 import { FindTransacaoByIdService } from '../service/FindTransacaoById.service';
+import { ListTransacaoUserAnuncianteService } from '../service/ListTransacaoUserAnunciante.service';
 
 class TransacaoController {
   async create(request: Request, response: Response) {
@@ -59,6 +60,24 @@ class TransacaoController {
     const transacao = await aceitarTransacaoService.execute(trs_Id);
 
     return response.status(200).json(transacao);
+  }
+
+  async ListTransacaoUserAnunciante(request: Request, response: Response) {
+    const { trs_usu_Anunciante_id } = request.params;
+
+    const listTransacaoUserAnuncianteService = container.resolve(
+      ListTransacaoUserAnuncianteService,
+    );
+
+    const transacoes = await listTransacaoUserAnuncianteService.execute({
+      page: 1,
+      limit: 10,
+      filter: {
+        trs_usu_Anunciante_id,
+      },
+    });
+
+    return response.status(200).json(transacoes);
   }
 }
 
