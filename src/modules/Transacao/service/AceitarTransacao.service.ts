@@ -1,4 +1,5 @@
 import { IExemplarTransacaoRepository } from '@modules/Exemplar-Transacao/repository/ExemplarTransacaoRepository.interface';
+import { IExemplarRepository } from '@modules/Exemplar/repository/IExemplarRepository.interface';
 import { IStatusTransacaoRepository } from '@modules/Status-Transacao/repository/StatusTransacaoRepository.interface';
 import { BlockedExemplarError } from '@shared/errors/BlockedExemplarError';
 import { EntityNotFoundError } from '@shared/errors/EntityNotFoundError';
@@ -16,6 +17,9 @@ class AceitarTransacaoService {
 
     @inject('StatusTransacaoRepository')
     private statusTransacaoRepository: IStatusTransacaoRepository,
+
+    @inject('ExemplarRepository')
+    private exemplarRepository: IExemplarRepository,
   ) {}
 
   async execute(trs_Id: string) {
@@ -83,8 +87,35 @@ class AceitarTransacaoService {
             throw new BlockedExemplarError(
               'Exemplar bloqueado, já está em outra transação aceita',
             );
+          } else if (dataAtual > dataTransacao) {
+            const exemplar = await this.exemplarRepository.findBy({
+              exe_Id: exemplarTransacao.exe_id,
+            });
+
+            if (!exemplar) {
+              throw new EntityNotFoundError('Exemplar não encontrado');
+            }
+
+            if (exemplar.exe_Negociando === true) {
+              exemplar.exe_Negociando = false;
+
+              await this.exemplarRepository.update(exemplar);
+            }
           }
         }
+
+        // coloca o exemplar como negociando
+        const exemplar = await this.exemplarRepository.findBy({
+          exe_Id: exemplarTransacao.exe_id,
+        });
+
+        if (!exemplar) {
+          throw new EntityNotFoundError('Exemplar não encontrado');
+        }
+
+        exemplar.exe_Negociando = true;
+
+        await this.exemplarRepository.update(exemplar);
       });
     });
 
