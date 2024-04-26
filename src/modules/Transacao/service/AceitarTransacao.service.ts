@@ -51,73 +51,79 @@ class AceitarTransacaoService {
     }
 
     // verifica se o exemplar já não está em outra transação aceita antes dos X dias no .env
-    exemplaresTransacao.results.forEach(async (exemplarTransacao) => {
-      const transcoesExemplar = await this.exemplarTransacaoRepository.listBy({
-        filter: {
-          exe_id: exemplarTransacao.exe_id,
-        },
-        page: 1,
-        limit: 1000,
-      });
+    const exemplaresPromises = exemplaresTransacao.results.map(
+      async (exemplarTransacao) => {
+        const transcoesExemplar = await this.exemplarTransacaoRepository.listBy(
+          {
+            filter: {
+              exe_id: exemplarTransacao.exe_id,
+            },
+            page: 1,
+            limit: 1000,
+          },
+        );
 
-      transcoesExemplar.results.forEach(async (transacaoExemplar) => {
-        const Exetransacao = await this.transacaoRepository.findBy({
-          trs_Id: transacaoExemplar.trs_id,
-        });
+        transcoesExemplar.results.forEach(async (transacaoExemplar) => {
+          const Exetransacao = await this.transacaoRepository.findBy({
+            trs_Id: transacaoExemplar.trs_id,
+          });
 
-        // busca no banco, verifica se a transação já foi aceita e se já passou do prazo de cancelamento
-        if (
-          Exetransacao &&
-          Exetransacao.trs_str_id !== statusCancelado.str_Id &&
-          Exetransacao.trs_str_id !==
-            (process.env.TRANSACAO_STATUS_INICIAL as string)
-        ) {
-          const dataAtual = new Date();
+          // busca no banco, verifica se a transação já foi aceita e se já passou do prazo de cancelamento
+          if (
+            Exetransacao &&
+            Exetransacao.trs_str_id !== statusCancelado.str_Id &&
+            Exetransacao.trs_str_id !==
+              (process.env.TRANSACAO_STATUS_INICIAL as string)
+          ) {
+            const dataAtual = new Date();
 
-          const dataTransacao = new Date(Exetransacao.trs_Data);
+            const dataTransacao = new Date(Exetransacao.trs_Data);
 
-          // verifica se a transação já passou do prazo de cancelamento
-          dataTransacao.setDate(
-            dataTransacao.getDate() +
-              Number(process.env.TRANSACAO_DIAS_CANCELAMENTO),
-          );
-
-          if (dataAtual < dataTransacao) {
-            // transação ainda não passou do prazo de cancelamento bloqueia a transação
-            throw new BlockedExemplarError(
-              'Exemplar bloqueado, já está em outra transação aceita',
+            // verifica se a transação já passou do prazo de cancelamento
+            dataTransacao.setDate(
+              dataTransacao.getDate() +
+                Number(process.env.TRANSACAO_DIAS_CANCELAMENTO),
             );
-          } else if (dataAtual > dataTransacao) {
-            const exemplar = await this.exemplarRepository.findBy({
-              exe_Id: exemplarTransacao.exe_id,
-            });
 
-            if (!exemplar) {
-              throw new EntityNotFoundError('Exemplar não encontrado');
-            }
+            if (dataAtual < dataTransacao) {
+              // transação ainda não passou do prazo de cancelamento bloqueia a transação
+              throw new BlockedExemplarError(
+                'Exemplar bloqueado, já está em outra transação aceita',
+              );
+            } else if (dataAtual > dataTransacao) {
+              const exemplar = await this.exemplarRepository.findBy({
+                exe_Id: exemplarTransacao.exe_id,
+              });
 
-            if (exemplar.exe_Negociando === true) {
-              exemplar.exe_Negociando = false;
+              if (!exemplar) {
+                throw new EntityNotFoundError('Exemplar não encontrado');
+              }
 
-              await this.exemplarRepository.update(exemplar);
+              if (exemplar.exe_Negociando === true) {
+                exemplar.exe_Negociando = false;
+
+                await this.exemplarRepository.update(exemplar);
+              }
             }
           }
-        }
 
-        // coloca o exemplar como negociando
-        const exemplar = await this.exemplarRepository.findBy({
-          exe_Id: exemplarTransacao.exe_id,
+          // coloca o exemplar como negociando
+          const exemplar = await this.exemplarRepository.findBy({
+            exe_Id: exemplarTransacao.exe_id,
+          });
+
+          if (!exemplar) {
+            throw new EntityNotFoundError('Exemplar não encontrado');
+          }
+
+          exemplar.exe_Negociando = true;
+
+          await this.exemplarRepository.update(exemplar);
         });
+      },
+    );
 
-        if (!exemplar) {
-          throw new EntityNotFoundError('Exemplar não encontrado');
-        }
-
-        exemplar.exe_Negociando = true;
-
-        await this.exemplarRepository.update(exemplar);
-      });
-    });
+    await Promise.all(exemplaresPromises);
 
     // verifica se a transação já foi aceita
     if (transacao.trs_str_id !== process.env.TRANSACAO_STATUS_INICIAL) {
