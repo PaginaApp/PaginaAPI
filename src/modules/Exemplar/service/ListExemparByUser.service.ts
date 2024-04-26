@@ -1,5 +1,8 @@
 import { IEstadoCapaRepository } from '@modules/Estado-Capa/repository/IEstadoCapaRepository.interface';
 import { IEstadoPaginasRepository } from '@modules/Estado-Paginas/repository/IEstadoPaginaRepository.interface';
+import { IExemplarTransacaoRepository } from '@modules/Exemplar-Transacao/repository/ExemplarTransacaoRepository.interface';
+import { IStatusTransacaoRepository } from '@modules/Status-Transacao/repository/StatusTransacaoRepository.interface';
+import { ITransacaoRepository } from '@modules/Transacao/repository/TransacaoRepository.interface';
 import { IUserRepository } from '@modules/User/repository/UserRepository.interface';
 import { EntityNotFoundError } from '@shared/errors/EntityNotFoundError';
 import { IPaginatedRequest } from '@shared/interfaces/IPaginatedRequest';
@@ -22,6 +25,15 @@ class ListExemplarByUserService {
 
     @inject('ExemplarRepository')
     private exemplarRepository: IExemplarRepository,
+
+    @inject('ExemplarTransacaoRepository')
+    private exemplarTransacaoRepository: IExemplarTransacaoRepository,
+
+    @inject('TransacaoRepository')
+    private transacaoRepository: ITransacaoRepository,
+
+    @inject('StatusTransacaoRepository')
+    private statusTransacaoRepository: IStatusTransacaoRepository,
   ) {}
 
   async execute(
@@ -58,21 +70,84 @@ class ListExemplarByUserService {
     });
 
     // inclui os estados de capa e paginas no exemplar
-    exemplares.results = exemplares.results.map((exemplar) => {
-      Object.assign(exemplar, {
-        estadoCapa: estadoCapa.results.find(
+    exemplares.results = await Promise.all(
+      exemplares.results.map(async (exemplar) => {
+        if (exemplar.exe_Negociando) {
+          // verifica se a transação já passou do prazo de X dias no .env
+          const transacoesExemplar =
+            await this.exemplarTransacaoRepository.listBy({
+              filter: {
+                exe_id: exemplar.exe_Id,
+              },
+              page: 1,
+              limit: 1000,
+            });
+
+          await Promise.all(
+            transacoesExemplar.results.map(async (transacaoExemplar) => {
+              const transacao = await this.transacaoRepository.findBy({
+                trs_Id: transacaoExemplar.trs_id,
+              });
+
+              if (!transacao) {
+                return null;
+              }
+
+              const statusTransacao =
+                await this.statusTransacaoRepository.findBy({
+                  str_Id: transacao.trs_str_id,
+                });
+
+              if (
+                !statusTransacao ||
+                statusTransacao.str_Nome !== 'Em andamento'
+              ) {
+                return null;
+              }
+
+              // data de hoje
+              const dataAtual = new Date();
+
+              // data da transação
+              const dataTransacao = transacao.trs_Data;
+
+              // diferença de dias entre a data de hoje e a data da transação
+              const diffTime = Math.abs(
+                dataAtual.getTime() - dataTransacao.getTime(),
+              );
+
+              // diferença de dias
+              const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+              if (
+                diffDays >
+                (process.env.TRANSACAO_DIAS_CANCELAMENTO as unknown as number)
+              ) {
+                exemplar.exe_Negociando = false;
+
+                await this.exemplarRepository.update(exemplar);
+                return transacao;
+              }
+
+              return null;
+            }),
+          );
+        }
+
+        const estadoCapaResult = estadoCapa.results.find(
           (estado) => estado.ecp_Id === exemplar.exe_ecp_id,
-        ),
-      });
+        );
 
-      Object.assign(exemplar, {
-        estadoPaginas: estadoPaginas.results.find(
+        const estadoPaginasResult = estadoPaginas.results.find(
           (estado) => estado.epg_Id === exemplar.exe_epg_id,
-        ),
-      });
+        );
 
-      return exemplar;
-    });
+        return Object.assign(exemplar, {
+          estadoCapa: estadoCapaResult,
+          estadoPaginas: estadoPaginasResult,
+        });
+      }),
+    );
 
     return exemplares;
   }
