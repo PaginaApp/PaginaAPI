@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { TransacaoController } from '../controller/Transacao.controller';
 import {
   AceitarTransacaoMiddleware,
+  CancelarTransacaoMiddleware,
   ConcluirTransacaoMiddleware,
   CreateTransacaoMiddleware,
   FindTransacaoByIdMiddleware,
@@ -47,6 +48,12 @@ transacaoRoutes.put(
   '/:trs_Id/concluir',
   ConcluirTransacaoMiddleware,
   transacaoController.concluirTransacao,
+);
+
+transacaoRoutes.put(
+  '/:trs_Id/cancelar',
+  CancelarTransacaoMiddleware,
+  transacaoController.cancelarTransacao,
 );
 
 export { transacaoRoutes };

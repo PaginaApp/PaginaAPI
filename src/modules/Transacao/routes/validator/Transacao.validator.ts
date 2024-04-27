@@ -43,3 +43,9 @@ export const ConcluirTransacaoMiddleware = celebrate({
     trs_Id: Joi.string().required().uuid(),
   },
 });
+
+export const CancelarTransacaoMiddleware = celebrate({
+  params: {
+    trs_Id: Joi.string().required().uuid(),
+  },
+});
