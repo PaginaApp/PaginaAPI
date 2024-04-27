@@ -53,10 +53,10 @@ class CreateEnderecoService {
       cid_nome = data.endereco.usu_cid_nome;
     }
 
-    const cidade = await this.cidadeRepository.findBy({
-      cid_Nome: cid_nome,
-      cid_est_id: estado.est_Id,
-    });
+    const cidade = await this.cidadeRepository.findByNameAndState(
+      cid_nome,
+      estado.est_Id,
+    );
 
     if (!cidade) {
       throw new EntityNotFoundError('Cidade não encontrada');
