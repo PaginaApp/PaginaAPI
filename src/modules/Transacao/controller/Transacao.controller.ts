@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { AceitarTransacaoService } from '../service/AceitarTransacao.service';
+import { ConcluirTransacaoService } from '../service/ConcluirTransacao.service';
 import { CreateTransacaoService } from '../service/CreateTransacao.service';
 import { FindTransacaoByIdService } from '../service/FindTransacaoById.service';
 import { ListTransacaoUserAnuncianteService } from '../service/ListTransacaoUserAnunciante.service';
@@ -97,6 +98,18 @@ class TransacaoController {
     });
 
     return response.status(200).json(transacoes);
+  }
+
+  async concluirTransacao(request: Request, response: Response) {
+    const { trs_Id } = request.params;
+
+    const concluirTransacaoService = container.resolve(
+      ConcluirTransacaoService,
+    );
+
+    const transacao = await concluirTransacaoService.execute(trs_Id);
+
+    return response.status(200).json(transacao);
   }
 }
 
