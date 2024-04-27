@@ -37,3 +37,9 @@ export const ListTransacaoUserLeitorMiddleware = celebrate({
     trs_usu_Leitor_id: Joi.string().required().uuid(),
   },
 });
+
+export const ConcluirTransacaoMiddleware = celebrate({
+  params: {
+    trs_Id: Joi.string().required().uuid(),
+  },
+});

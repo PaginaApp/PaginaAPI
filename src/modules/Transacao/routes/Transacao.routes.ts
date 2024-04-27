@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { TransacaoController } from '../controller/Transacao.controller';
 import {
   AceitarTransacaoMiddleware,
+  ConcluirTransacaoMiddleware,
   CreateTransacaoMiddleware,
   FindTransacaoByIdMiddleware,
   ListTransacaoUserAnuncianteMiddleware,
@@ -40,6 +41,12 @@ transacaoRoutes.get(
   '/leitor/:trs_usu_Leitor_id',
   ListTransacaoUserLeitorMiddleware,
   transacaoController.ListTransacaoUserLeitor,
+);
+
+transacaoRoutes.put(
+  '/:trs_Id/concluir',
+  ConcluirTransacaoMiddleware,
+  transacaoController.concluirTransacao,
 );
 
 export { transacaoRoutes };
