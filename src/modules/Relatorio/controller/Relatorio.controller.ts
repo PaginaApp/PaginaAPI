@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { ExemplarPorMesService } from '../service/ExemplarPorMes.service';
+import { MediaUserPorIdadeService } from '../service/MediaUserPorIdade.service';
 
 class RelatorioController {
   async getExemplaresPorMes(req: Request, res: Response) {
@@ -8,6 +9,16 @@ class RelatorioController {
     const exemplarPorMesService = container.resolve(ExemplarPorMesService);
 
     const data = await exemplarPorMesService.execute(Number(ano));
+
+    return res.json(data);
+  }
+
+  async getUserByAge(req: Request, res: Response) {
+    const mediaUserPorIdadeService = container.resolve(
+      MediaUserPorIdadeService,
+    );
+
+    const data = await mediaUserPorIdadeService.execute();
 
     return res.json(data);
   }
