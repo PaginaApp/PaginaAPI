@@ -12,4 +12,6 @@ relatorioRoutes.get(
   relatorioController.getExemplaresPorMes,
 );
 
+relatorioRoutes.get('/users/idade', relatorioController.getUserByAge);
+
 export { relatorioRoutes };
