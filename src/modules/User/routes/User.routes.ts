@@ -1,5 +1,6 @@
 import { avatarRouter } from '@modules/Avatar/Routes/Avatar.router';
 import { enderecoRouter } from '@modules/Endereco/routes/Endereco.routes';
+import { listaDeDesejoRoutes } from '@modules/Listas-de-desejos/routes/ListaDeDesejo.routes';
 import verifyAutorization from '@shared/middlewares/VerifyAutorization';
 import { Router } from 'express';
 import { UserController } from '../controller/User.controller';
@@ -18,6 +19,8 @@ const userController = new UserController();
 userRouter.use(enderecoRouter);
 
 userRouter.use(avatarRouter);
+
+userRouter.use(listaDeDesejoRoutes);
 
 userRouter.post('/', createUserMiddleware, userController.create);
 

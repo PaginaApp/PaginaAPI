@@ -18,6 +18,8 @@ import { ExemplarRepository } from '@modules/Exemplar/repository/ExemplarReposit
 import { IExemplarRepository } from '@modules/Exemplar/repository/IExemplarRepository.interface';
 import { ImagemExemplarRepository } from '@modules/Imagem-Exemplar/repository/ImagemExemplarRepository';
 import { IImagemExemplarRepository } from '@modules/Imagem-Exemplar/repository/ImagemExemplarRepository.interface';
+import { ListaDeDesejoRepository } from '@modules/Listas-de-desejos/repository/ListaDeDesejoRepository';
+import { IListaDeDesejoRepository } from '@modules/Listas-de-desejos/repository/ListaDeDesejoRepository.interface';
 import { ILivroRepository } from '@modules/Livro/repository/ILivroRepository.interface';
 import { LivroRepository } from '@modules/Livro/repository/LivroRepository';
 import { IPapelRepository } from '@modules/Papel/repository/IPapelRepository.interface';
@@ -70,6 +72,11 @@ container.registerSingleton<ICategoriaRepository>(
 container.registerSingleton<ICategoriaLivroRepository>(
   'CategoriaLivroRepository',
   CategoriaLivroRepository,
+);
+
+container.registerSingleton<IListaDeDesejoRepository>(
+  'ListaDeDesejoRepository',
+  ListaDeDesejoRepository,
 );
 
 container.registerSingleton<IEstadoCapaRepository>(
