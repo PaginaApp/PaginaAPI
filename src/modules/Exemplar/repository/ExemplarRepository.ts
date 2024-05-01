@@ -65,6 +65,27 @@ class ExemplarRepository implements IExemplarRepository {
       },
     });
   }
+
+  async countByMonth(month: number, year: number): Promise<number> {
+    const data = await prisma.exemplar.count({
+      where: {
+        AND: [
+          {
+            exe_CriadoEm: {
+              gte: new Date(year, month, 1),
+            },
+          },
+          {
+            exe_CriadoEm: {
+              lt: new Date(year, month + 1, 1),
+            },
+          },
+        ],
+      },
+    });
+
+    return data;
+  }
 }
 
 export { ExemplarRepository };
