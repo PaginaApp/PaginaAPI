@@ -14,4 +14,10 @@ relatorioRoutes.get(
 
 relatorioRoutes.get('/users/idade', relatorioController.getUserByAge);
 
+relatorioRoutes.get(
+  '/transacoes/:ano',
+  getExemplaresPorMesMiddleware,
+  relatorioController.getTransacaoPorMes,
+);
+
 export { relatorioRoutes };
