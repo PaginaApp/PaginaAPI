@@ -20,4 +20,10 @@ relatorioRoutes.get(
   relatorioController.getTransacaoPorMes,
 );
 
+relatorioRoutes.get(
+  '/categorias/:ano',
+  getExemplaresPorMesMiddleware,
+  relatorioController.getCategoriasCadastradasPorMes,
+);
+
 export { relatorioRoutes };
