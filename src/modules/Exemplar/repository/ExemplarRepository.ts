@@ -86,6 +86,27 @@ class ExemplarRepository implements IExemplarRepository {
 
     return data;
   }
+
+  exemplaresByMonth(month: number, year: number): Promise<Exemplar[]> {
+    const data = prisma.exemplar.findMany({
+      where: {
+        AND: [
+          {
+            exe_CriadoEm: {
+              gte: new Date(year, month, 1),
+            },
+          },
+          {
+            exe_CriadoEm: {
+              lt: new Date(year, month + 1, 1),
+            },
+          },
+        ],
+      },
+    });
+
+    return data;
+  }
 }
 
 export { ExemplarRepository };
