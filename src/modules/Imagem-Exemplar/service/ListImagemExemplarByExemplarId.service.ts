@@ -1,5 +1,6 @@
 import { IExemplarRepository } from '@modules/Exemplar/repository/IExemplarRepository.interface';
 import { EntityNotFoundError } from '@shared/errors/EntityNotFoundError';
+import { UnknownError } from '@shared/errors/UnknownError';
 import { inject, injectable } from 'tsyringe';
 import { ImagemExemplar } from '../entitie/ImagemExemplar';
 import { IImagemExemplarRepository } from '../repository/ImagemExemplarRepository.interface';
@@ -30,6 +31,18 @@ class ListImagemExemplarByExemplarIdService {
         iex_exe_id: exe_Id,
       },
     });
+
+    if (imagens.results.length <= 0) {
+      const defaultImage = await this.imagemExemplarRepository.findBy({
+        iex_Id: process.env.EXEMPLAR_DEFAULT_ID,
+      });
+
+      if (!defaultImage) {
+        throw new UnknownError('Erro desconhecido, favor informar o suporte');
+      }
+
+      imagens.results.push(defaultImage);
+    }
 
     return imagens.results;
   }
