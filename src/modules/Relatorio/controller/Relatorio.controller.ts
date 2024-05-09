@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import { CategoriaCadastradasPorMesService } from '../service/CategoriaCadastradasPorMes.service';
 import { ExemplarPorMesService } from '../service/ExemplarPorMes.service';
 import { MediaUserPorIdadeService } from '../service/MediaUserPorIdade.service';
 import { TransacaoPorMesService } from '../service/TransacaoPorMes.service';
@@ -30,6 +31,18 @@ class RelatorioController {
     const transacoesPorMesService = container.resolve(TransacaoPorMesService);
 
     const data = await transacoesPorMesService.execute(Number(ano));
+
+    return res.json(data);
+  }
+
+  async getCategoriasCadastradasPorMes(req: Request, res: Response) {
+    const { ano } = req.params;
+
+    const categoriaCadastradasPorMesService = container.resolve(
+      CategoriaCadastradasPorMesService,
+    );
+
+    const data = await categoriaCadastradasPorMesService.execute(Number(ano));
 
     return res.json(data);
   }
