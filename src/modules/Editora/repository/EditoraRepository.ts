@@ -35,5 +35,23 @@ class EditoraRepository implements IEditoraRepository {
       limit,
     };
   }
+
+  async create(entity: Editora): Promise<Editora> {
+    const data = await prisma.editora.create({
+      data: {
+        edi_Nome: entity.edi_Nome,
+      },
+    });
+
+    return data;
+  }
+
+  async delete(entity: Editora): Promise<void> {
+    await prisma.editora.delete({
+      where: {
+        edi_Id: entity.edi_Id,
+      },
+    });
+  }
 }
 export { EditoraRepository };

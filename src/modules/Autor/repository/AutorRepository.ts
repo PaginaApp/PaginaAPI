@@ -2,6 +2,7 @@ import { Autor } from '@prisma/client';
 import { prisma } from '@shared/database';
 import { IPaginatedRequest } from '@shared/interfaces/IPaginatedRequest';
 import { IPaginatedResponse } from '@shared/interfaces/IPaginatedResponse';
+import { CreateAutorDTO } from '../DTO/CreateAutorDTO';
 import { IAutorRepository } from './IAutorRepository.interface';
 
 class AutorRepository implements IAutorRepository {
@@ -34,6 +35,24 @@ class AutorRepository implements IAutorRepository {
       page,
       limit,
     };
+  }
+
+  async create(entity: CreateAutorDTO): Promise<Autor> {
+    const data = await prisma.autor.create({
+      data: {
+        aut_Nome: entity.aut_Nome,
+      },
+    });
+
+    return data;
+  }
+
+  async delete(entity: Autor): Promise<void> {
+    await prisma.autor.delete({
+      where: {
+        aut_Id: entity.aut_Id,
+      },
+    });
   }
 }
 
