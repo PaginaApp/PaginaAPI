@@ -38,6 +38,7 @@ export const crateLivroMiddleware = celebrate({
     liv_ISBN: Joi.string().required(),
     liv_aut_id: Joi.string().uuid().required(),
     liv_edi_id: Joi.string().uuid().required(),
+    liv_cat_id: Joi.array().items(Joi.string().uuid().required()),
   },
 });
 
@@ -49,6 +50,7 @@ export const updateLivroMiddleware = celebrate({
     liv_ISBN: Joi.string().required(),
     liv_aut_id: Joi.string().uuid().required(),
     liv_edi_id: Joi.string().uuid().required(),
+    liv_cat_id: Joi.array().items(Joi.string().uuid().required()),
   },
 
   params: {
