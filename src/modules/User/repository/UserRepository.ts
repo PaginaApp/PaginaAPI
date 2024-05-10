@@ -104,6 +104,19 @@ class UserRepository implements IUserRepository {
 
     return user;
   }
+
+  async CountByAge(start: Date, end: Date): Promise<number> {
+    const count = await prisma.user.count({
+      where: {
+        usu_Nasc: {
+          gte: start,
+          lte: end,
+        },
+      },
+    });
+
+    return count;
+  }
 }
 
 export { UserRepository };

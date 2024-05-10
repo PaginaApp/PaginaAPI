@@ -4,6 +4,12 @@ import { UpdateTransacaoDTO } from '../DTO/UpdateTransacaoDTO';
 import { Transacao } from '../entitie/Transacao';
 
 interface ITransacaoRepository
-  extends IRepository<Transacao, CreateTransacaoDTO, UpdateTransacaoDTO> {}
+  extends IRepository<Transacao, CreateTransacaoDTO, UpdateTransacaoDTO> {
+  countByDateByType(
+    startDate: Date,
+    endDate: Date,
+    trs_ttr_id: string,
+  ): Promise<number>;
+}
 
 export { ITransacaoRepository };
