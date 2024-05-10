@@ -32,4 +32,12 @@ autorRoutes.get(
   autorController.list,
 );
 
+// rota para listar os autores com nomes parecidos com o nome passado
+autorRoutes.get(
+  '/search',
+  verifyAutorization([process.env.PAPEL_ADMINISTRADOR as string]),
+  listAutorMiddleware,
+  autorController.listByName,
+);
+
 export { autorRoutes };

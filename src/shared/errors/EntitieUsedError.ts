@@ -2,7 +2,7 @@ import { BaseError } from './BaseError';
 
 class EntityUsedError extends BaseError {
   constructor(message: string) {
-    super('EntityAlreadyExistError', 403, true, message);
+    super('EntityUsedError', 409, true, message);
   }
 }
 

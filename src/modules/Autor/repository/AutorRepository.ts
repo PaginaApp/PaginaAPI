@@ -54,6 +54,38 @@ class AutorRepository implements IAutorRepository {
       },
     });
   }
+
+  async listByName({
+    page = 1,
+    limit = 10,
+    filter,
+  }: IPaginatedRequest<Autor>): Promise<IPaginatedResponse<Autor>> {
+    const data = await prisma.autor.findMany({
+      where: {
+        aut_Nome: {
+          contains: filter!.aut_Nome,
+          mode: 'insensitive',
+        },
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    const total = await prisma.autor.count({
+      where: {
+        aut_Nome: {
+          contains: filter!.aut_Nome,
+        },
+      },
+    });
+
+    return {
+      results: data,
+      total,
+      page,
+      limit,
+    };
+  }
 }
 
 export { AutorRepository };
