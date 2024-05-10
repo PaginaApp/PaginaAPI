@@ -16,7 +16,12 @@ class DeleteUserService {
       throw new EntityNotFoundError('Usuario não encontrado');
     }
 
-    await this.usersRepository.delete(user);
+    try {
+      await this.usersRepository.delete(user);
+    } catch (error) {
+      // usuario tem relacionamento com outra tabela
+      await this.usersRepository.update({ usu_Id: id, usu_Ativo: false });
+    }
   }
 }
 
