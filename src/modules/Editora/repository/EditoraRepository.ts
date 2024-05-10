@@ -53,5 +53,36 @@ class EditoraRepository implements IEditoraRepository {
       },
     });
   }
+
+  async listByName({
+    page = 1,
+    limit = 10,
+    filter,
+  }: IPaginatedRequest<Editora>): Promise<IPaginatedResponse<Editora>> {
+    const data = await prisma.editora.findMany({
+      where: {
+        edi_Nome: {
+          contains: filter!.edi_Nome,
+        },
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    const total = await prisma.editora.count({
+      where: {
+        edi_Nome: {
+          contains: filter!.edi_Nome,
+        },
+      },
+    });
+
+    return {
+      results: data,
+      total,
+      page,
+      limit,
+    };
+  }
 }
 export { EditoraRepository };
