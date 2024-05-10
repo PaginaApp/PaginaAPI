@@ -32,4 +32,11 @@ editoraRoutes.get(
   editoraController.list,
 );
 
+editoraRoutes.get(
+  '/search',
+  verifyAutorization([process.env.PAPEL_ADMINISTRADOR as string]),
+  listEditoraMiddleware,
+  editoraController.listByName,
+);
+
 export { editoraRoutes };

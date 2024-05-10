@@ -16,5 +16,6 @@ export const listEditoraMiddleware = celebrate({
   query: {
     page: Joi.number().required(),
     limit: Joi.number().required(),
+    edi_Nome: Joi.string(),
   },
 });
