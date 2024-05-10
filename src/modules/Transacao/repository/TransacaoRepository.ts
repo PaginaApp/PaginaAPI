@@ -72,6 +72,24 @@ class TransacaoRepository implements ITransacaoRepository {
       },
     });
   }
+
+  async countByDateByType(
+    startDate: Date,
+    endDate: Date,
+    trs_ttr_id: string,
+  ): Promise<number> {
+    const data = await prisma.transacao.count({
+      where: {
+        trs_Data: {
+          gte: startDate,
+          lte: endDate,
+        },
+        trs_ttr_id,
+      },
+    });
+
+    return data;
+  }
 }
 
 export { TransacaoRepository };
