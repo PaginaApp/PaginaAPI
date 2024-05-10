@@ -38,6 +38,8 @@ class User implements IUser {
   usu_CriadoEm: Date;
 
   usu_AtualizadoEm: Date;
+
+  usu_Ativo: boolean;
 }
 
 export { User };

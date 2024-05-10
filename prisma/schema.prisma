@@ -26,6 +26,7 @@ model User {
     usu_Bairro         String?
     usu_CEP            String?             @db.Char(9)
     usu_Complemento    String?
+    usu_Ativo          Boolean             @default(true)
     // relação
     usu_cid_id         String?
     usu_cid            Cidade?             @relation(fields: [usu_cid_id], references: [cid_Id])

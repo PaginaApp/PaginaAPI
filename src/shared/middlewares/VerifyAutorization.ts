@@ -28,6 +28,10 @@ export default function verifyAutorization(roles: string[]) {
       throw new AuthorizationError('User not found');
     }
 
+    if (!user.usu_Ativo) {
+      throw new AuthorizationError('User not found');
+    }
+
     if (!roles.includes(user.usu_pap_id)) {
       throw new AuthorizationError('User not authorized');
     }

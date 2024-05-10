@@ -67,18 +67,22 @@ class LivroController {
       liv_ISBN,
       liv_aut_id,
       liv_edi_id,
+      liv_cat_id,
     } = req.body;
 
     const createLivroService = container.resolve(CreateLivroService);
 
-    const data = await createLivroService.execute({
-      liv_Titulo,
-      liv_Ano,
-      liv_Sinopse,
-      liv_ISBN,
-      liv_aut_id,
-      liv_edi_id,
-    });
+    const data = await createLivroService.execute(
+      {
+        liv_Titulo,
+        liv_Ano,
+        liv_Sinopse,
+        liv_ISBN,
+        liv_aut_id,
+        liv_edi_id,
+      },
+      liv_cat_id,
+    );
 
     return res.status(200).json(data);
   }
@@ -91,21 +95,25 @@ class LivroController {
       liv_ISBN,
       liv_aut_id,
       liv_edi_id,
+      liv_cat_id,
     } = req.body;
 
     const { liv_Id } = req.params;
 
     const updateLivroService = container.resolve(UpdateLivroService);
 
-    const data = await updateLivroService.execute({
-      liv_Titulo,
-      liv_Ano,
-      liv_Sinopse,
-      liv_ISBN,
-      liv_aut_id,
-      liv_edi_id,
-      liv_Id,
-    });
+    const data = await updateLivroService.execute(
+      {
+        liv_Titulo,
+        liv_Ano,
+        liv_Sinopse,
+        liv_ISBN,
+        liv_aut_id,
+        liv_edi_id,
+        liv_Id,
+      },
+      liv_cat_id,
+    );
 
     return res.status(200).json(data);
   }

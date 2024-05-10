@@ -16,6 +16,8 @@ class IUpdateUserDTO {
   usu_cid_id?: string;
 
   usu_avatar?: string;
+
+  usu_Ativo?: boolean;
 }
 
 export { IUpdateUserDTO };

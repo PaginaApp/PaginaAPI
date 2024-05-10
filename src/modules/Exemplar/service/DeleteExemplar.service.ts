@@ -1,4 +1,4 @@
-import { IUserRepository } from '@modules/User/repository/UserRepository.interface';
+import { EntityUsedError } from '@shared/errors/EntitieUsedError';
 import { EntityNotFoundError } from '@shared/errors/EntityNotFoundError';
 import { inject, injectable } from 'tsyringe';
 import { IExemplarRepository } from '../repository/IExemplarRepository.interface';
@@ -8,9 +8,6 @@ class DeleteExemplarService {
   constructor(
     @inject('ExemplarRepository')
     private exemplarRepository: IExemplarRepository,
-
-    @inject('UserRepository')
-    private userRespository: IUserRepository,
   ) {}
 
   async execute(exe_Id: string): Promise<void> {
@@ -22,8 +19,13 @@ class DeleteExemplarService {
       throw new EntityNotFoundError('Exemplar não encontrado');
     }
 
-    // adicionar verificação de transação
-    await this.exemplarRepository.delete(exemplarExists);
+    try {
+      await this.exemplarRepository.delete(exemplarExists);
+    } catch (error) {
+      throw new EntityUsedError(
+        'Exemplar já utilizado em uma transação impossível deletar',
+      );
+    }
   }
 }
 

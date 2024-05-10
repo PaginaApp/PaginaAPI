@@ -39,6 +39,31 @@ class CategoriaLivroRepository implements ICategoriaLivroRepository {
       total,
     };
   }
+
+  async create(data: {
+    cat_Id: string;
+    liv_Id: string;
+  }): Promise<CategoriaLivro> {
+    const categoria_Livro = await prisma.categoria_Livro.create({
+      data: {
+        cat_id: data.cat_Id,
+        liv_id: data.liv_Id,
+      },
+    });
+
+    return categoria_Livro;
+  }
+
+  async delete(data: { cat_Id: string; liv_Id: string }): Promise<void> {
+    await prisma.categoria_Livro.delete({
+      where: {
+        liv_id_cat_id: {
+          cat_id: data.cat_Id,
+          liv_id: data.liv_Id,
+        },
+      },
+    });
+  }
 }
 
 export { CategoriaLivroRepository };
