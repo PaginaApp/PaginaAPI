@@ -16,5 +16,6 @@ export const listAutorMiddleware = celebrate({
   query: {
     page: Joi.number().required(),
     limit: Joi.number().required(),
+    aut_Nome: Joi.string(),
   },
 });
