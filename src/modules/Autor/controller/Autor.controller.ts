@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import { CreateAutorService } from '../service/CreateAutor.service';
 import { DeleteAutorService } from '../service/DeleteAutor.service';
 import { ListAutorService } from '../service/ListAutor.service';
+import { ListAutorByNameService } from '../service/ListAutorByName.service';
 
 class AutorController {
   async create(req: Request, res: Response) {
@@ -33,6 +34,22 @@ class AutorController {
     const data = await listAutorService.execute({
       page: Number(page),
       limit: Number(limit),
+    });
+
+    return res.status(200).json(data);
+  }
+
+  async listByName(req: Request, res: Response) {
+    const { page, limit, aut_Nome } = req.query;
+
+    const listAutorByNameService = container.resolve(ListAutorByNameService);
+
+    const data = await listAutorByNameService.execute({
+      page: Number(page),
+      limit: Number(limit),
+      filter: {
+        aut_Nome: String(aut_Nome),
+      },
     });
 
     return res.status(200).json(data);
