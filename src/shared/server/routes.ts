@@ -1,4 +1,5 @@
 import { categoriaRoutes } from '@modules/Categoria/routes/Categoria.routes';
+import { editoraRoutes } from '@modules/Editora/routes/Editora.routes';
 import { estadoCapaRoutes } from '@modules/Estado-Capa/routes/EstadoCapa.routes';
 import { estadoPaginasRoutes } from '@modules/Estado-Paginas/routes/EstadoPaginas.routes';
 import { exemplarRoutes } from '@modules/Exemplar/routes/Exemplar.routes';
@@ -31,6 +32,8 @@ routes.use('/exemplar', exemplarRoutes);
 routes.use('/tipoTransacao', tipoTransacoesRoutes);
 
 routes.use('/transacao', transacaoRoutes);
+
+routes.use('/editora', editoraRoutes);
 
 routes.get('/', (request, response) => {
   response.send('Bem Vindo ao API rest da plataforma Página 📚🚀🚀🚀');
