@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import { CreateEditoraService } from '../service/CreateEditora.service';
 import { DeleteEditoraService } from '../service/DeleteEditora.service';
 import { ListEditoraService } from '../service/ListEditora.service';
+import { ListEditoraByNomeService } from '../service/ListEditoraByNome.service';
 
 class EditoraController {
   async create(req: Request, res: Response) {
@@ -33,6 +34,24 @@ class EditoraController {
     const data = await listEditoraService.execute({
       page: Number(page),
       limit: Number(limit),
+    });
+
+    return res.status(200).json(data);
+  }
+
+  async listByName(req: Request, res: Response) {
+    const { page, limit, edi_Nome } = req.query;
+
+    const listEditoraByNomeService = container.resolve(
+      ListEditoraByNomeService,
+    );
+
+    const data = await listEditoraByNomeService.execute({
+      page: Number(page),
+      limit: Number(limit),
+      filter: {
+        edi_Nome: String(edi_Nome),
+      },
     });
 
     return res.status(200).json(data);
