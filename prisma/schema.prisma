@@ -179,6 +179,8 @@ model Exemplar {
     exe_Id           String               @id @default(uuid())
     exe_Descricao    String
     exe_Negociando   Boolean              @default(false)
+    exe_Preco        Decimal?             @db.Decimal(10, 2)
+    exe_Prazo        Int?                 @db.Integer
     // relação
     exe_liv_id       String
     exe_liv          Livro                @relation(fields: [exe_liv_id], references: [liv_Id])
