@@ -1,3 +1,5 @@
+import { Decimal } from '@prisma/client/runtime/library';
+
 class CreateExemplarDTO {
   exe_Descricao: string;
 
@@ -10,6 +12,10 @@ class CreateExemplarDTO {
   exe_epg_id: string;
 
   exe_ecp_id: string;
+
+  exe_Preco?: Decimal;
+
+  exe_Prazo?: number;
 }
 
 export { CreateExemplarDTO };
