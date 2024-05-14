@@ -1,4 +1,6 @@
 import { IAutorRepository } from '@modules/Autor/repository/IAutorRepository.interface';
+import { ICategoriaLivroRepository } from '@modules/Categoria-Livro/repository/ICategoria_LivroRepository.interface';
+import { ICategoriaRepository } from '@modules/Categoria/repository/ICategoriaRepository.interface';
 import { IEditoraRepository } from '@modules/Editora/repository/IEditoraRepository.interface';
 import { IEstadoCapaRepository } from '@modules/Estado-Capa/repository/IEstadoCapaRepository.interface';
 import { IEstadoPaginasRepository } from '@modules/Estado-Paginas/repository/IEstadoPaginaRepository.interface';
@@ -28,6 +30,12 @@ class FindExemplarByIdService {
 
     @inject('AutorRepository')
     private autorRepository: IAutorRepository,
+
+    @inject('CategoriaRepository')
+    private categoriaRepository: ICategoriaRepository,
+
+    @inject('CategoriaLivroRepository')
+    private categoriaLivroRepository: ICategoriaLivroRepository,
   ) {}
 
   async execute(exe_Id: string): Promise<Exemplar> {
@@ -91,6 +99,24 @@ class FindExemplarByIdService {
 
     Object.assign(exemplar, {
       livro,
+    });
+
+    const categoriasLivros = await this.categoriaLivroRepository.listBy({
+      filter: { liv_id: livro.liv_Id },
+    });
+
+    const categorias = await Promise.all(
+      categoriasLivros.results.map(async (categoria) => {
+        const cat = await this.categoriaRepository.findBy({
+          cat_Id: categoria.cat_id,
+        });
+
+        return cat;
+      }),
+    );
+
+    Object.assign(livro, {
+      categorias,
     });
 
     return exemplar;
