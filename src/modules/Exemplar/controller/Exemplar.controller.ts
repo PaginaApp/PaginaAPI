@@ -50,21 +50,29 @@ class ExemplarController {
       exe_usu_id,
       exe_epg_id,
       exe_ecp_id,
+      exe_trs_id,
+      exe_Prazo,
+      exe_Preco,
     } = req.body;
 
     const { exe_Id } = req.params;
 
     const updateExemplarService = container.resolve(UpdateExemplarService);
 
-    const data = await updateExemplarService.execute({
-      exe_Descricao,
-      exe_Negociando,
-      exe_liv_id,
-      exe_usu_id,
-      exe_epg_id,
-      exe_ecp_id,
-      exe_Id,
-    });
+    const data = await updateExemplarService.execute(
+      {
+        exe_Descricao,
+        exe_Negociando,
+        exe_liv_id,
+        exe_usu_id,
+        exe_epg_id,
+        exe_ecp_id,
+        exe_Id,
+        exe_Prazo,
+        exe_Preco,
+      },
+      exe_trs_id,
+    );
 
     return res.status(200).json(data);
   }

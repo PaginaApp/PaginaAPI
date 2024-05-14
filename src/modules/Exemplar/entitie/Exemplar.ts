@@ -1,3 +1,5 @@
+import { Decimal } from '@prisma/client/runtime/library';
+
 class Exemplar {
   exe_Id: string;
 
@@ -12,6 +14,10 @@ class Exemplar {
   exe_epg_id: string;
 
   exe_ecp_id: string;
+
+  exe_Prazo: number | null;
+
+  exe_Preco: Decimal | null;
 
   exe_CriadoEm: Date;
 
