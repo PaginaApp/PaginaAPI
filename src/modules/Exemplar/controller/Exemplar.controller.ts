@@ -18,18 +18,26 @@ class ExemplarController {
       exe_usu_id,
       exe_epg_id,
       exe_ecp_id,
+      exe_trs_id,
+      exe_Preco,
+      exe_Prazo,
     } = req.body;
 
     const createExemplarService = container.resolve(CreateExemplarService);
 
-    const data = await createExemplarService.execute({
-      exe_Descricao,
-      exe_Negociando,
-      exe_liv_id,
-      exe_usu_id,
-      exe_epg_id,
-      exe_ecp_id,
-    });
+    const data = await createExemplarService.execute(
+      {
+        exe_Descricao,
+        exe_Negociando,
+        exe_liv_id,
+        exe_usu_id,
+        exe_epg_id,
+        exe_ecp_id,
+        exe_Prazo,
+        exe_Preco,
+      },
+      exe_trs_id,
+    );
 
     return res.status(200).json(data);
   }
