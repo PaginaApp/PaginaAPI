@@ -37,4 +37,8 @@ livroRoutes.post('/', crateLivroMiddleware, livroController.createLivro);
 
 livroRoutes.put('/:liv_Id', updateLivroMiddleware, livroController.updateLivro);
 
+livroRoutes.get('/', livroController.listLivro);
+
+livroRoutes.delete('/:liv_Id', livroController.deleteLivro);
+
 export { livroRoutes };

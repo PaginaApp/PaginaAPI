@@ -2,10 +2,12 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import Livro from '../entitie/Livro';
 import { CreateLivroService } from '../service/CreateLivro.service';
+import { DeleteLivroService } from '../service/DeleteLivro.service';
 import { FindByISBNService } from '../service/FindByISBN.service';
 import { FindByNameService } from '../service/FindByName.service';
 import { ListByISBNService } from '../service/ListByISBN.service';
 import { ListByNameService } from '../service/ListByName.service';
+import { ListLivroService } from '../service/ListLivro.service';
 import { UpdateLivroService } from '../service/UpdateLivro.service';
 
 class LivroController {
@@ -116,6 +118,29 @@ class LivroController {
     );
 
     return res.status(200).json(data);
+  }
+
+  async listLivro(req: Request, res: Response) {
+    const { page, limit } = req.query;
+
+    const listByNameService = container.resolve(ListLivroService);
+
+    const livros = await listByNameService.execute({
+      page: Number(page),
+      limit: Number(limit),
+    });
+
+    return res.status(200).json(livros);
+  }
+
+  async deleteLivro(req: Request, res: Response) {
+    const { liv_Id } = req.params;
+
+    const deleteLivroService = container.resolve(DeleteLivroService);
+
+    await deleteLivroService.execute(liv_Id);
+
+    return res.status(200).json({ message: 'Livro deletado com sucesso' });
   }
 }
 

@@ -10,7 +10,7 @@ export const createExemplarMiddleware = celebrate({
     exe_ecp_id: Joi.string().required().uuid(),
     exe_Preco: Joi.number().optional(),
     exe_Prazo: Joi.number().optional(),
-    exe_trs_id: Joi.array().items(Joi.string().uuid()),
+    exe_trs_id: Joi.array().items(Joi.string().uuid().optional()).required(),
   },
 });
 

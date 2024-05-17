@@ -57,3 +57,10 @@ export const updateLivroMiddleware = celebrate({
     liv_Id: Joi.string().uuid().required(),
   },
 });
+
+export const listLivroMiddleware = celebrate({
+  query: {
+    page: Joi.number().required(),
+    limit: Joi.number().required(),
+  },
+});
