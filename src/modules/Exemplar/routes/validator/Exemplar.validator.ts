@@ -26,6 +26,8 @@ export const updateExemplarMiddleware = celebrate({
     exe_epg_id: Joi.string().required().uuid(),
     exe_ecp_id: Joi.string().required().uuid(),
     exe_trs_id: Joi.array().items(Joi.string().uuid()),
+    exe_Preco: Joi.number().optional(),
+    exe_Prazo: Joi.number().optional(),
   },
 });
 

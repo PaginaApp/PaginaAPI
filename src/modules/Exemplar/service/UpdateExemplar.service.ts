@@ -97,13 +97,13 @@ class UpdateExemplarService {
       }
 
       if (transacaoFind.ttr_Nome === 'Emprestimo') {
-        if (!exemplarExists.exe_Prazo || !data.exe_Prazo) {
+        if (!exemplarExists.exe_Prazo && !data.exe_Prazo) {
           throw new BadRequestError('Prazo não encontrado');
         }
       }
 
       if (transacaoFind.ttr_Nome === 'Venda') {
-        if (!exemplarExists.exe_Preco || !data.exe_Preco) {
+        if (!exemplarExists.exe_Preco && !data.exe_Preco) {
           throw new BadRequestError('Preço não encontrado');
         }
       }
