@@ -1,3 +1,4 @@
+import { ICategoriaLivroRepository } from '@modules/Categoria-Livro/repository/ICategoria_LivroRepository.interface';
 import { IExemplarRepository } from '@modules/Exemplar/repository/IExemplarRepository.interface';
 import { EntityNotFoundError } from '@shared/errors/EntityNotFoundError';
 import { inject, injectable } from 'tsyringe';
@@ -11,6 +12,9 @@ class DeleteLivroService {
 
     @inject('ExemplarRepository')
     private exemplarRepository: IExemplarRepository,
+
+    @inject('CategoriaLivroRepository')
+    private categoriaLivroRepository: ICategoriaLivroRepository,
   ) {}
 
   async execute(liv_Id: string) {
@@ -32,6 +36,22 @@ class DeleteLivroService {
       throw new EntityNotFoundError(
         'Livro possui exemplares impossível deletar',
       );
+    }
+
+    // deleta as relações com categorias
+    const categorias = await this.categoriaLivroRepository.listBy({
+      filter: {
+        liv_id: livro.liv_Id,
+      },
+    });
+
+    if (categorias.results.length > 0) {
+      categorias.results.forEach(async (categoria) => {
+        return this.categoriaLivroRepository.delete({
+          cat_Id: categoria.cat_id,
+          liv_Id: categoria.liv_id,
+        });
+      });
     }
 
     await this.livroRepository.delete(livro);
