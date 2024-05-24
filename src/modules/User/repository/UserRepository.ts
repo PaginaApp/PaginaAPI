@@ -39,9 +39,13 @@ class UserRepository implements IUserRepository {
       take: limit,
     });
 
+    const total = await prisma.user.count({
+      where: filter,
+    });
+
     return {
       results: data,
-      total: data.length,
+      total,
       page,
       limit,
     };
