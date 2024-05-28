@@ -15,9 +15,9 @@ class UpdateExemplarDTO {
 
   exe_ecp_id: string;
 
-  exe_Prazo: number;
+  exe_Prazo: number | null;
 
-  exe_Preco: Decimal;
+  exe_Preco: Decimal | null;
 }
 
 export { UpdateExemplarDTO };
