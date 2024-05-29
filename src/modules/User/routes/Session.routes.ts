@@ -24,4 +24,6 @@ sessionRouter.put(
   sessionController.refresh,
 );
 
+sessionRouter.get('/:user_Id', sessionController.verify);
+
 export { sessionRouter };
