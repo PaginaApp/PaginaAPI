@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import { CreateSessionService } from '../service/session/CreateSession.service';
 import { DeleteSessionService } from '../service/session/DeleteSession.service';
 import { RefreshSessionService } from '../service/session/RefreshSession.service';
+import { VerifySessionService } from '../service/session/VerifySession.service';
 
 class SessionController {
   async create(request: Request, response: Response) {
@@ -41,6 +42,20 @@ class SessionController {
     });
 
     return response.json(session);
+  }
+
+  async verify(request: Request, response: Response) {
+    const { user_Id } = request.params;
+
+    const { authorization } = request.headers;
+
+    const token = authorization!.split(' ')[1];
+
+    const verifySession = container.resolve(VerifySessionService);
+
+    const isValid = await verifySession.execute(token, user_Id);
+
+    return response.json(isValid);
   }
 }
 
