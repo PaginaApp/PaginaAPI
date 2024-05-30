@@ -5,6 +5,8 @@ import { IEditoraRepository } from '@modules/Editora/repository/IEditoraReposito
 import { IEstadoCapaRepository } from '@modules/Estado-Capa/repository/IEstadoCapaRepository.interface';
 import { IEstadoPaginasRepository } from '@modules/Estado-Paginas/repository/IEstadoPaginaRepository.interface';
 import { ILivroRepository } from '@modules/Livro/repository/ILivroRepository.interface';
+import { ITipoTransacaoRepository } from '@modules/Tipo-Transacao/repository/TipoTransacaoRepository.interface';
+import { ITransacaoAceitaRepository } from '@modules/Transacao-Aceita/repository/TransacaoAceitaRepository.interface';
 import { EntityNotFoundError } from '@shared/errors/EntityNotFoundError';
 import { inject, injectable } from 'tsyringe';
 import { Exemplar } from '../entitie/Exemplar';
@@ -36,6 +38,12 @@ class FindExemplarByIdService {
 
     @inject('CategoriaLivroRepository')
     private categoriaLivroRepository: ICategoriaLivroRepository,
+
+    @inject('TipoTransacaoRepository')
+    private TipoTransacaoRepository: ITipoTransacaoRepository,
+
+    @inject('TransacaoAceitaRepository')
+    private transacaoAceitaRepository: ITransacaoAceitaRepository,
   ) {}
 
   async execute(exe_Id: string): Promise<Exemplar> {
@@ -118,6 +126,25 @@ class FindExemplarByIdService {
     Object.assign(livro, {
       categorias,
     });
+
+    const TiposTransacoes = await this.transacaoAceitaRepository.listBy({
+      filter: { exe_Id: exemplar.exe_Id },
+    });
+
+    // cria uma lista de tipos de transações aceitas e adiciona ao exemplar
+    const tiposTransacoesPromises = TiposTransacoes.results.map(
+      async (transacao) => {
+        const transacaoFind = await this.TipoTransacaoRepository.findBy({
+          ttr_Id: transacao.ttr_Id,
+        });
+
+        return transacaoFind;
+      },
+    );
+
+    const tiposTransacoes = await Promise.all(tiposTransacoesPromises);
+
+    Object.assign(exemplar, { tiposTransacoes });
 
     return exemplar;
   }
