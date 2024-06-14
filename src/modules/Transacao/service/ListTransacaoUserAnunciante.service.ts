@@ -1,5 +1,8 @@
+import { ICategoriaLivroRepository } from '@modules/Categoria-Livro/repository/ICategoria_LivroRepository.interface';
+import { ICategoriaRepository } from '@modules/Categoria/repository/ICategoriaRepository.interface';
 import { IExemplarTransacaoRepository } from '@modules/Exemplar-Transacao/repository/ExemplarTransacaoRepository.interface';
 import { IExemplarRepository } from '@modules/Exemplar/repository/IExemplarRepository.interface';
+import { ILivroRepository } from '@modules/Livro/repository/ILivroRepository.interface';
 import { IStatusTransacaoRepository } from '@modules/Status-Transacao/repository/StatusTransacaoRepository.interface';
 import { ITipoTransacaoRepository } from '@modules/Tipo-Transacao/repository/TipoTransacaoRepository.interface';
 import { IUserRepository } from '@modules/User/repository/UserRepository.interface';
@@ -30,6 +33,15 @@ class ListTransacaoUserAnuncianteService {
 
     @inject('ExemplarTransacaoRepository')
     private exemplarTransacaoRepository: IExemplarTransacaoRepository,
+
+    @inject('LivroRepository')
+    private livroRepository: ILivroRepository,
+
+    @inject('CategoriaRepository')
+    private categoriaRepository: ICategoriaRepository,
+
+    @inject('CategoriaLivroRepository')
+    private categoriaLivroRepository: ICategoriaLivroRepository,
   ) {}
 
   async execute(
@@ -89,6 +101,42 @@ class ListTransacaoUserAnuncianteService {
           if (!exemplarFind) {
             throw new EntityNotFoundError('Exemplar não encontrado');
           }
+
+          const livro = await this.livroRepository.findBy({
+            liv_Id: exemplarFind.exe_liv_id,
+          });
+
+          if (!livro) {
+            throw new EntityNotFoundError('Livro não encontrado');
+          }
+
+          const categoriaLivro = await this.categoriaLivroRepository.listBy({
+            limit: 3,
+            page: 1,
+            filter: {
+              liv_id: livro.liv_Id,
+            },
+          });
+
+          const categoriasPromises = categoriaLivro.results.map(
+            async (catLivro) => {
+              const categoria = await this.categoriaRepository.findBy({
+                cat_Id: catLivro.cat_id,
+              });
+
+              return categoria;
+            },
+          );
+
+          const categorias = await Promise.all(categoriasPromises);
+
+          Object.assign(livro, {
+            categorias,
+          });
+
+          Object.assign(exemplarFind, {
+            livro,
+          });
 
           return exemplarFind;
         },

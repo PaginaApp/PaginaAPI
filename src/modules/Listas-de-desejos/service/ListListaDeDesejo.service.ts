@@ -1,5 +1,8 @@
 /* eslint-disable no-await-in-loop */
 import { IAutorRepository } from '@modules/Autor/repository/IAutorRepository.interface';
+import { ICategoriaLivroRepository } from '@modules/Categoria-Livro/repository/ICategoria_LivroRepository.interface';
+import { Categoria } from '@modules/Categoria/entitie/Categoria';
+import { ICategoriaRepository } from '@modules/Categoria/repository/ICategoriaRepository.interface';
 import { IEditoraRepository } from '@modules/Editora/repository/IEditoraRepository.interface';
 import { ILivroRepository } from '@modules/Livro/repository/ILivroRepository.interface';
 import { IUserRepository } from '@modules/User/repository/UserRepository.interface';
@@ -26,6 +29,12 @@ class ListListaDeDesejoService {
 
     @inject('EditoraRepository')
     private editoraRepository: IEditoraRepository,
+
+    @inject('CategoriaRepository')
+    private categoriaRepository: ICategoriaRepository,
+
+    @inject('CategoriaLivroRepository')
+    private categoriaLivroRepository: ICategoriaLivroRepository,
   ) {}
 
   async execute(
@@ -45,39 +54,76 @@ class ListListaDeDesejoService {
     const listaDeDesejo = await this.listaDeDesejoRepository.listBy(data);
 
     // para cada livro na lista de desejos, buscar o livro e adiciona o autor e editora
-    for (let i = 0; i < listaDeDesejo.results.length; i += 1) {
-      const livro = await this.livroRepository.findBy({
-        liv_Id: listaDeDesejo.results[i].liv_id,
-      });
+    await Promise.all(
+      listaDeDesejo.results.map(async (item) => {
+        const livroPromise = this.livroRepository.findBy({
+          liv_Id: item.liv_id,
+        });
 
-      if (!livro) {
-        throw new Error('Livro não encontrado.');
-      }
+        const autorPromise = livroPromise.then((livro) => {
+          if (!livro) {
+            throw new Error('Livro não encontrado.');
+          }
 
-      const autor = await this.autorRepository.findBy({
-        aut_Id: livro.liv_aut_id,
-      });
+          return this.autorRepository.findBy({
+            aut_Id: livro.liv_aut_id,
+          });
+        });
 
-      if (!autor) {
-        throw new Error('Autor não encontrado.');
-      }
+        const editoraPromise = livroPromise.then((livro) => {
+          if (!livro) {
+            throw new Error('Livro não encontrado.');
+          }
 
-      const editora = await this.editoraRepository.findBy({
-        edi_Id: livro.liv_edi_id,
-      });
+          return this.editoraRepository.findBy({
+            edi_Id: livro.liv_edi_id,
+          });
+        });
 
-      if (!editora) {
-        throw new Error('Editora não encontrada.');
-      }
+        const [livro, autor, editora] = await Promise.all([
+          livroPromise,
+          autorPromise,
+          editoraPromise,
+        ]);
 
-      Object.assign(listaDeDesejo.results[i], {
-        livro: {
-          ...livro,
+        if (!autor) {
+          throw new Error('Autor não encontrado.');
+        }
+
+        if (!editora) {
+          throw new Error('Editora não encontrada.');
+        }
+
+        const categoriaLivro = await this.categoriaLivroRepository.listBy({
+          filter: { liv_id: item.liv_id },
+          page: 1,
+          limit: 3,
+        });
+
+        // para cada categoria, busca a categoria
+        const categorias: Categoria[] = [];
+        await Promise.all(
+          categoriaLivro.results.map(async (cat) => {
+            const categoria = await this.categoriaRepository.findBy({
+              cat_Id: cat.cat_id,
+            });
+
+            if (!categoria) {
+              return;
+            }
+
+            categorias.push(categoria);
+          }),
+        );
+
+        Object.assign(item, {
+          livro,
           autor,
           editora,
-        },
-      });
-    }
+          categorias,
+        });
+      }),
+    );
 
     return listaDeDesejo;
   }
