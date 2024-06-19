@@ -7,6 +7,7 @@ import { exemplarRoutes } from '@modules/Exemplar/routes/Exemplar.routes';
 import { livroRoutes } from '@modules/Livro/routes/Livro.routes';
 import { papelRoutes } from '@modules/Papel/routes/Papel.routes';
 import { relatorioRoutes } from '@modules/Relatorio/routes/Relatorio.routes';
+import { termoPrivacidadeRoutes } from '@modules/Termos-Privacidade/Routes/TermoPrivacidade.routes';
 import { tipoTransacoesRoutes } from '@modules/Tipo-Transacao/routes/TipoTransacao.routes';
 import { transacaoRoutes } from '@modules/Transacao/routes/Transacao.routes';
 import { sessionRouter } from '@modules/User/routes/Session.routes';
@@ -40,6 +41,8 @@ routes.use('/relatorio', relatorioRoutes);
 routes.use('/editora', editoraRoutes);
 
 routes.use('/autor', autorRoutes);
+
+routes.use('/termo', termoPrivacidadeRoutes);
 
 routes.get('/', (request, response) => {
   response.send('Bem Vindo ao API rest da plataforma Página 📚🚀🚀🚀');
