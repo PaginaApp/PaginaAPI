@@ -28,6 +28,8 @@ import { IPapelRepository } from '@modules/Papel/repository/IPapelRepository.int
 import { PapelRepository } from '@modules/Papel/repository/PapelRepository';
 import { StatusTransacaoRepository } from '@modules/Status-Transacao/repository/StatusTransacaoRepository';
 import { IStatusTransacaoRepository } from '@modules/Status-Transacao/repository/StatusTransacaoRepository.interface';
+import { ITermoPrivacidadeRepository } from '@modules/Termos-Privacidade/Repository/ITermoPrivacidade.repository';
+import { TermoPrivacidadeRepository } from '@modules/Termos-Privacidade/Repository/TermoPrivacidadeRepositort';
 import { TipoTransacaoRepository } from '@modules/Tipo-Transacao/repository/TipoTransacaoRepository';
 import { ITipoTransacaoRepository } from '@modules/Tipo-Transacao/repository/TipoTransacaoRepository.interface';
 import { TransacaoAceitaRepository } from '@modules/Transacao-Aceita/repository/TransacaoAceitaRepositori';
@@ -132,6 +134,11 @@ container.registerSingleton<IStatusTransacaoRepository>(
 container.registerSingleton<ITransacaoRepository>(
   'TransacaoRepository',
   TransacaoRepository,
+);
+
+container.registerSingleton<ITermoPrivacidadeRepository>(
+  'TermoPrivacidadeRepository',
+  TermoPrivacidadeRepository,
 );
 // utils
 container.registerSingleton<IHashProvider>('HashProvider', HashProvider);
